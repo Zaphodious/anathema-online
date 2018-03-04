@@ -22,6 +22,7 @@
                  [com.novemberain/monger "3.1.0"]
                  [com.cemerick/url "0.1.1"]
                  [gzip-util "0.1.0-SNAPSHOT"]
+                 [com.cemerick/url "0.1.1"]
                  [org.clojure/core.async  "0.4.474"]]
 
   :plugins [[lein-cljsbuild "1.1.6"]
@@ -112,7 +113,7 @@
 
               :plugins [[lein-figwheel "0.5.11"]
                         [lein-doo "0.1.7"]]
-              :env {:mongodb-uri "mongodb://localhost:27017/dev"}
+              :env {:mongodb-uri "mongodb%3A%2F%2Flocalhost%3A27017%2Fanathema"}
               :source-paths ["dev"]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}
 
