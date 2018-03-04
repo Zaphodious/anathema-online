@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.671" :scope "provided"]
                  [com.cognitect/transit-clj "0.8.300"]
                  [ring "1.6.2"]
@@ -17,7 +17,12 @@
                  [org.danielsz/system "0.4.0"]
                  [org.clojure/tools.namespace "0.2.11"]
                  [rum "0.10.8"]
-                 [lambdaisland/garden-watcher "0.3.1"]]
+                 [lambdaisland/garden-watcher "0.3.1"]
+                 [com.rpl/specter "1.1.0"]
+                 [com.novemberain/monger "3.1.0"]
+                 [com.cemerick/url "0.1.1"]
+                 [gzip-util "0.1.0-SNAPSHOT"]
+                 [org.clojure/core.async  "0.4.474"]]
 
   :plugins [[lein-cljsbuild "1.1.6"]
             [lein-environ "1.1.0"]]
@@ -107,7 +112,7 @@
 
               :plugins [[lein-figwheel "0.5.11"]
                         [lein-doo "0.1.7"]]
-
+              :env {:mongodb-uri "mongodb://localhost:27017/dev"}
               :source-paths ["dev"]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}
 
