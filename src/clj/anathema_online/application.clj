@@ -23,5 +23,5 @@
     (-> config
         app-system
         component/start)
-    (d/backup-dev-db!)
+    (d/restore-dev-db!)
     (println "Started anathema-online on" (str "http://localhost:" (:http-port config)))))
