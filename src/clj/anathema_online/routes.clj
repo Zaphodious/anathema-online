@@ -7,7 +7,9 @@
 (defn home-routes [endpoint]
   (routes
     (route/not-found
-      (-> "<body>Hello World</body>"
+      (-> "public/index.html"
+          io/resource
+          io/input-stream
           response
           (assoc :headers ["Content-Type" "text/html; charset=utf-8"])))
     (GET "/" _
