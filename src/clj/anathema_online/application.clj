@@ -20,8 +20,7 @@
 
 (defn -main [& _]
   (let [config (config)]
+    (d/restore-dev-db!)
     (-> config
         app-system
-        component/start)
-    (d/restore-dev-db!)
-    (println "Started anathema-online on" (str "http://localhost:" (:http-port config)))))
+        component/start)))
