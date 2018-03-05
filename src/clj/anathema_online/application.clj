@@ -6,7 +6,8 @@
             [system.components.middleware :refer [new-middleware]]
             [system.components.jetty :refer [new-web-server]]
             [anathema-online.config :refer [config]]
-            [anathema-online.routes :refer [home-routes]]))
+            [anathema-online.routes :refer [home-routes]]
+            [anathema-online.data :as d]))
 
 (defn app-system [config]
   (component/system-map
@@ -22,4 +23,5 @@
     (-> config
         app-system
         component/start)
+    (d/backup-dev-db!)
     (println "Started anathema-online on" (str "http://localhost:" (:http-port config)))))
