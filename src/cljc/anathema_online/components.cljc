@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [clojure.core.async :as async]))
 
-(defrecord disk []
+(defrecord DiskComponent []
   component/Lifecycle
   (start [d]
     (let [read-chan (async/chan 5)
