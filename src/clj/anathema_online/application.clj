@@ -6,7 +6,10 @@
             [system.components.middleware :refer [new-middleware]]
             [system.components.jetty :refer [new-web-server]]
             [anathema-online.config :refer [config]]
-            [anathema-online.routes :refer [home-routes]]))
+            [anathema-online.routes :refer [home-routes]]
+            [anathema-online.components.environ :refer [new-environ]]
+            [anathema-online.components.db :refer [new-db]]
+            [anathema-online.components.disk :refer [new-disk]]))
 
 (defn app-system [config]
   (component/system-map
@@ -15,7 +18,11 @@
     :handler    (-> (new-handler)
                     (component/using [:routes :middleware]))
     :http       (-> (new-web-server (:http-port config))
-                    (component/using [:handler]))))
+                    (component/using [:handler]))
+    :disk       (new-disk)
+    :environ    (new-environ)
+    :db         (-> (new-db)
+                    (component/using [:environ :disk]))))
 
 (defn -main [& _]
   (let [config (config)]
