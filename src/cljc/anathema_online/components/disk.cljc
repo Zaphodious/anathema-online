@@ -24,13 +24,13 @@
   "Fetches the data under the path, returns as a core.async channel."
   [d path]
   (let [c (async/chan)]
-    (async/go (async/>! (:read-chan d) [path c])
+    (async/go (async/>! (:read-chan d) {:path path :channel c})
               (async/<! c))))
 
 (defn disk-write!
   "Requests that the app state be placed onto the disk under the provided path. Returns the disk."
   [d path object]
-  (async/go (async/>! (:write-chan d) [path object]))
+  (async/go (async/>! (:write-chan d) {:path path :object object}))
   d)
 
 (defn disk-change!
