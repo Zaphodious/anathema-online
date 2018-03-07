@@ -49,7 +49,6 @@
 (defn- put-player-in-db! [db player-thing]
   (mc/update db player-collection
              {:_id (or (:key player-thing "nill"))}
-             player-thing
              {:upsert true}))
 
 (defn- get-player-from-db [db player-id]
@@ -75,7 +74,9 @@
        (async/tap write-mult sub-chan)
        (async/go-loop
          []
-         (when-let [{:keys [path object]} (async/<! sub-chan)])
+         (when-let [{:keys [path object]} (async/<! sub-chan)]
+           (if (:email object)))
+
          (recur))))
 
 (defrecord DBComponent []
