@@ -9,7 +9,8 @@
             [anathema-online.routes :refer [home-routes]]
             [anathema-online.components.environ :refer [new-environ]]
             [anathema-online.components.db :refer [new-db]]
-            [anathema-online.components.disk :refer [new-disk]]))
+            [anathema-online.components.disk :refer [new-disk]]
+            [anathema-online.components.editor :refer [new-editor]]))
 
 (defn app-system [config]
   (component/system-map
@@ -21,6 +22,8 @@
                     (component/using [:handler]))
     :disk       (new-disk)
     :environ    (new-environ)
+    :editor     (-> (new-editor)
+                    (component/using [:disk]))
     :db         (-> (new-db)
                     (component/using [:environ :disk]))))
 

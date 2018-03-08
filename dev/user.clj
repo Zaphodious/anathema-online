@@ -8,7 +8,8 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [figwheel-sidecar.repl-api :as figwheel]
             [garden-watcher.core :refer [new-garden-watcher]]
-            [anathema-online.config :refer [config]]))
+            [anathema-online.config :refer [config]]
+            [anathema-online.components.db :as db]))
 
 (defn dev-system []
   (assoc (anathema-online.application/app-system (config))
@@ -38,3 +39,9 @@
 (defn browser-repl []
   (println "(browser-repl) is deprecated, use (cljs-repl)")
   (cljs-repl))
+
+(defn backup-dev-db []
+  (db/backup-dev-db! (:db (:db reloaded.repl/system))))
+
+(defn restore-dev-db []
+  (db/backup-dev-db! (:db (:db reloaded.repl/system))))

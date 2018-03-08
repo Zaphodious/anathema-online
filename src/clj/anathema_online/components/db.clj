@@ -61,19 +61,19 @@
     (write-fn db thingy)))
 
 (defn- get-path-parent-from-db [db path]
-  (let [category (first db)
-        id (second db)
+  (let [category (first path)
+        id (second path)
         get-fn (if (= :player category)
                  get-player-from-db
                  get-entity-from-db)]
     (get-fn db id)))
 
-(defn- backup-dev-db! [db]
+(defn backup-dev-db! [db]
   (do
     (all-entities-to-file db "dev-entity-backup")
     (all-players-to-file db "dev-player-backup")))
 
-(defn- restore-dev-db! [db]
+(defn restore-dev-db! [db]
   (let [entity-insert-result (map
                                #(put-thing-in-db! db %)
                                (read-string (slurp "dev-entity-backup.edn")))
@@ -88,9 +88,14 @@
        (async/tap write-mult sub-chan)
        (async/go-loop
          []
-         (when-let [{:keys [path object]} (async/<! sub-chan)]
-           (let [parent-object (get-path-parent-from-db db path)])
-           (recur)))))
+         (when-let [{:keys [path view]} (async/<! sub-chan)]
+           (println "Writing " view " to " path)
+           (let [parent-view (get-path-parent-from-db db path)
+                 mod-view (sp/transform [(apply sp/keypath (rest (rest path)))]
+                                        (fn [a] view)
+                                        parent-view)]
+             (println "Further, this is written- " mod-view)))
+         (recur))))
 
 (defrecord DBComponent []
   component/Lifecycle
@@ -99,7 +104,7 @@
           {:keys [write-mult]} (:disk dbc)
           {:keys [db conn] :as connection-map} (connect-to-db! db-uri)]
       (println "--- Starting the DB thing!")
-      (println (restore-dev-db! db))
+      (spinup-db-writer db write-mult)
       (into dbc connection-map)))
   (stop [dbc]
     (mg/disconnect (:conn dbc))

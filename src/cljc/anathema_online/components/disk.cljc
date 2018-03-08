@@ -21,20 +21,14 @@
   (->DiskComponent))
 
 (defn disk-read
-  "Fetches the data under the path, returns as a core.async channel."
-  [d path]
+  "Fetches the data under the category and id, returns as a core.async channel."
+  [d category id]
   (let [c (async/chan)]
-    (async/go (async/>! (:read-chan d) {:path path :channel c})
+    (async/go (async/>! (:read-chan d) {:category category :id id :channel c})
               (async/<! c))))
 
 (defn disk-write!
-  "Requests that the app state be placed onto the disk under the provided path. Returns the disk."
-  [d path object]
-  (async/go (async/>! (:write-chan d) {:path path :object object}))
-  d)
-
-(defn disk-change!
-  "Changes the data under the path using the provided function. Returns the disk."
-  [d path fun]
-  (disk-write! d path (fun (disk-read d path)))
+  "Requests that the replacement object be put under the category and id. Returns the disk."
+  [d category id object]
+  (async/go (async/>! (:write-chan d) {:category category :id id :view object}))
   d)
