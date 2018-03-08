@@ -49,10 +49,24 @@
 (defn- put-player-in-db! [db player-thing]
   (mc/update db player-collection
              {:_id (or (:key player-thing "nill"))}
+             player-thing
              {:upsert true}))
 
 (defn- get-player-from-db [db player-id]
-  (dissoc (mc/find-map-by-id db player-collection player-id) :_id))
+  (assoc (dissoc (mc/find-map-by-id db player-collection player-id) :_id) :category :player))
+
+(defn- put-thing-in-db! [db thingy]
+  (let [isPlayer? (= :player (:category thingy))
+        write-fn (if isPlayer? put-player-in-db! put-entity-in-db!)]
+    (write-fn db thingy)))
+
+(defn- get-path-parent-from-db [db path]
+  (let [category (first db)
+        id (second db)
+        get-fn (if (= :player category)
+                 get-player-from-db
+                 get-entity-from-db)]
+    (get-fn db id)))
 
 (defn- backup-dev-db! [db]
   (do
@@ -61,10 +75,10 @@
 
 (defn- restore-dev-db! [db]
   (let [entity-insert-result (map
-                               #(put-entity-in-db! db %)
+                               #(put-thing-in-db! db %)
                                (read-string (slurp "dev-entity-backup.edn")))
         player-insert-result (map
-                               #(put-player-in-db! db %)
+                               #(put-thing-in-db! db %)
                                (read-string (slurp "dev-player-backup.edn")))]
     {:players player-insert-result
      :entity entity-insert-result}))
@@ -75,19 +89,20 @@
        (async/go-loop
          []
          (when-let [{:keys [path object]} (async/<! sub-chan)]
-           (if (:email object)))
-
-         (recur))))
+           (let [parent-object (get-path-parent-from-db db path)])
+           (recur)))))
 
 (defrecord DBComponent []
   component/Lifecycle
   (start [dbc]
     (let [{:keys [db-uri]} (:environ dbc)
           {:keys [write-mult]} (:disk dbc)
-          {:keys [db conn]} (connect-to-db! db-uri)]
+          {:keys [db conn] :as connection-map} (connect-to-db! db-uri)]
       (println "--- Starting the DB thing!")
-      (assoc dbc :db db)))
+      (println (restore-dev-db! db))
+      (into dbc connection-map)))
   (stop [dbc]
+    (mg/disconnect (:conn dbc))
     dbc))
 
 (defn new-db []
