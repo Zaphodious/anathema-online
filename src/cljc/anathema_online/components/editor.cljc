@@ -12,7 +12,11 @@
       (-> editor
           (assoc :change-event-chan change-event-chan)
           (assoc :request-data-chan request-data-chan))))
-  (stop [editor]))
+  (stop [{:keys [change-event-chan request-data-chan]}]
+    (do
+      (async/close! change-event-chan)
+      (async/close! request-data-chan)
+      editor)))
 
 (defn new-editor []
   (->EditorComponent))
