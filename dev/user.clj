@@ -44,4 +44,4 @@
   (db/backup-dev-db! (:db (:db reloaded.repl/system))))
 
 (defn restore-dev-db []
-  (db/backup-dev-db! (:db (:db reloaded.repl/system))))
+  (db/restore-dev-db! (:db (:db reloaded.repl/system))))

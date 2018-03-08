@@ -12,15 +12,23 @@
             [cemerick.url :as url :refer [url-decode url-encode]]
             [clojure.core.async :as async]))
 
+(defmulti write-object (fn [db object]
+                         (println "finding thing for " (keyword (:category object)))
+                         (keyword (:category object))))
+
+(defmulti read-object (fn [db category id]
+                        category))
 
 (def entity-collection "entities")
-(def player-collection "players")
+(def character-collection "character")
+(def rulebook-collection "rulebook")
+(def player-collection "player")
 
 (defn- connect-to-db! [db-uri]
   (mg/connect-via-uri db-uri))
 
-(defn- put-entity-in-db! [db thingy]
-  (mc/update db entity-collection
+(defn- put-entity-in-db! [db thingy collection-name]
+  (mc/update db collection-name
              {:_id (or (:key thingy) "nill")}
              {:name     (:name thingy)
               :category (:category thingy)
@@ -32,19 +40,19 @@
 
 (defn- extract-data [entry-map]
   (url-decode (gz/gzipped-input-stream->str (io/input-stream (:data entry-map)) "UTF-8")))
-(defn- get-entity-from-db [db key]
-  (read-string (extract-data (mc/find-map-by-id db entity-collection key))))
+(defn- get-entity-from-db [db coll-name key]
+  (read-string (extract-data (mc/find-map-by-id db coll-name key))))
 
-(defn- all-entities-to-file [db filename]
+(defn- all-entities-to-file [db filename coll-name]
   (spit (str filename ".edn")
-        (->> (mc/find-maps db entity-collection)
+        (->> (mc/find-maps db coll-name)
              (map extract-data)
              (map read-string)
              (vec))))
 
 (defn- all-players-to-file [db filename]
   (spit (str filename ".edn")
-        (vec (mc/find-maps db player-collection))))
+        (vec (mc/find-maps db "players"))))
 
 (defn- put-player-in-db! [db player-thing]
   (mc/update db player-collection
@@ -68,20 +76,60 @@
                  get-entity-from-db)]
     (get-fn db id)))
 
+(defmethod write-object :player
+  [db player-object]
+  (put-player-in-db! db player-object))
+
+(defmethod read-object :player
+  [db category id]
+  (get-player-from-db db id))
+
+(defmethod write-object :character
+  [db character-object]
+  (put-entity-in-db! db character-object character-collection))
+
+(defmethod read-object :character
+  [db category id]
+  (get-entity-from-db db character-collection id))
+
+(defmethod write-object :rulebook
+  [db rulebook-object]
+  (put-entity-in-db! db rulebook-object rulebook-collection))
+
+(defmethod read-object :rulebook
+  [db category id]
+  (get-entity-from-db db rulebook-collection id))
+
+(defn make-backup-file-name [category]
+  (str "dev-" category "-backup.edn"))
+
 (defn backup-dev-db! [db]
-  (do
-    (all-entities-to-file db "dev-entity-backup")
-    (all-players-to-file db "dev-player-backup")))
+  (let [collections [player-collection rulebook-collection character-collection]]
+    (->> collections
+         (map (fn [a] (mc/find-maps db a)))
+         (reduce into)
+         (map (fn [{:keys [_id category]}] [(keyword category) _id]))
+         (map (fn [[category id]] (read-object db category id)))
+         (reduce (fn [r {:keys [category] :as a}]
+                   (sp/transform [(sp/keypath category)]
+                                 (fn [v] (conj v a))
+                                 r))
+                 {})
+         (map (fn [[k v]]
+                (spit (make-backup-file-name (name k))
+                      (vec v)))))))
 
 (defn restore-dev-db! [db]
-  (let [entity-insert-result (map
-                               #(put-thing-in-db! db %)
-                               (read-string (slurp "dev-entity-backup.edn")))
-        player-insert-result (map
-                               #(put-thing-in-db! db %)
-                               (read-string (slurp "dev-player-backup.edn")))]
-    {:players player-insert-result
-     :entity entity-insert-result}))
+  (let [collections [player-collection rulebook-collection character-collection]]
+    (->> collections
+        (map make-backup-file-name)
+        (map slurp)
+        (map read-string)
+        (reduce into [])
+        (map (fn [a] (write-object db a))))))
+
+
+
 
 (defn spinup-db-writer [db write-mult]
   (let [sub-chan (async/chan 5)]
