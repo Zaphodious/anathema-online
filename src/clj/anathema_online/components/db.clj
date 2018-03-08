@@ -152,7 +152,6 @@
           {:keys [write-mult]} (:disk dbc)
           {:keys [db conn] :as connection-map} (connect-to-db! db-uri)]
       (println "--- Starting the DB thing!")
-      (spinup-db-writer db write-mult)
       (into dbc connection-map)))
   (stop [dbc]
     (mg/disconnect (:conn dbc))
