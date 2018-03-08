@@ -14,13 +14,17 @@
 
 (defn spin-up-reader [{state :state {:keys [read-chan]} :disk :as mockDB}]
   (async/go-loop []
-    (let [read-request])
-    (recur)))
+    (let [{:keys [category id return-chan] :as read-request} (async/<! read-chan)]
+      (async/>! return-chan (sp/select-first [sp/ATOM (sp/keypath category id)] state)))
+    (recur))
+  mockDB)
 
 (defrecord MockDBComponent
   component/Lifecycle
   (start [mockDB]
     (-> mockDB
+        (assoc :state (atom {}))
         (spin-up-writer)
-        (assoc :state (atom {}))))
-  (stop [mockDB]))
+        (spin-up-reader)))
+  (stop [mockDB]
+    mockDB))
