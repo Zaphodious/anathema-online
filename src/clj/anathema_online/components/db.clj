@@ -54,19 +54,25 @@
   (spit (str filename ".edn")
         (vec (mc/find-maps db "players"))))
 
+(defn- put-thing-in-db! [db {:keys [category key] :as thingy}]
+  (mc/update db (name (:category thingy))
+             {:_id (or key "nill")}
+             thingy
+             {:upsert true}))
+
 (defn- put-player-in-db! [db player-thing]
   (mc/update db player-collection
              {:_id (or (:key player-thing "nill"))}
              player-thing
              {:upsert true}))
 
+(defn- get-thing-from-db [db category id]
+  (-> (mc/find-map-by-id db (name category) id)
+      (dissoc :_id)
+      (assoc :category (keyword category))))
+
 (defn- get-player-from-db [db player-id]
   (assoc (dissoc (mc/find-map-by-id db player-collection player-id) :_id) :category :player))
-
-(defn- put-thing-in-db! [db thingy]
-  (let [isPlayer? (= :player (:category thingy))
-        write-fn (if isPlayer? put-player-in-db! put-entity-in-db!)]
-    (write-fn db thingy)))
 
 (defn- get-path-parent-from-db [db path]
   (let [category (first path)
@@ -76,13 +82,13 @@
                  get-entity-from-db)]
     (get-fn db id)))
 
-(defmethod write-object :player
+(defmethod write-object :default
   [db player-object]
-  (put-player-in-db! db player-object))
+  (put-thing-in-db! db player-object))
 
-(defmethod read-object :player
+(defmethod read-object :default
   [db category id]
-  (get-player-from-db db id))
+  (get-thing-from-db db category id))
 
 (defmethod write-object :character
   [db character-object]
@@ -132,7 +138,7 @@
 
 
 (defn spinup-db-writer [db write-mult]
-  (let [sub-chan (async/chan 5)]
+  (let [sub-chan (async/chan)]
        (async/tap write-mult sub-chan)
        (async/go-loop
          []
@@ -144,6 +150,15 @@
                                         parent-view)]
              (println "Further, this is written- " mod-view)))
          (recur))))
+
+(defn spinup-db-writer [db write-mult]
+    (let [sub-chan (async/chan)]
+      (async/tap write-mult sub-chan)
+      (async/go-loop []
+        (when-let [take-result (async/<! sub-chan)]
+          (write-object db take-result)
+          (recur)))))
+
 
 (defrecord DBComponent []
   component/Lifecycle
