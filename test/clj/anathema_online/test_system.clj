@@ -4,7 +4,7 @@
             [com.stuartsierra.component :as component :refer [using start-system stop-system]]
             [anathema-online.async :as ao-async]
             [anathema-online.components.disk :as c-disk]
-            [anathema-online.components.db :as c-db]
+            [anathema-online.components.mongo :as c-db]
             [clojure.core.async :as async]))
 
 (def test-data {:name (str (rand))

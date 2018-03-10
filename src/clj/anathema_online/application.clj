@@ -8,8 +8,8 @@
             [anathema-online.config :refer [config]]
             [anathema-online.routes :refer [home-routes]]
             [anathema-online.components.environ :refer [new-environ]]
-            [anathema-online.components.db :refer [new-db]]
-            [anathema-online.components.disk :refer [new-disk]]
+            [anathema-online.components.mongo :refer [new-mongo-disk]]
+            [anathema-online.components.atom-disk :refer [new-atom-disk]]
             [anathema-online.components.editor :refer [new-editor]]))
 
 (defn app-system [config]
@@ -19,13 +19,7 @@
     :handler    (-> (new-handler)
                     (component/using [:routes :middleware]))
     :http       (-> (new-web-server (:http-port config))
-                    (component/using [:handler]))
-    :disk       (new-disk)
-    :environ    (new-environ)
-    :editor     (-> (new-editor)
-                    (component/using [:disk]))
-    :db         (-> (new-db)
-                    (component/using [:environ :disk]))))
+                    (component/using [:handler]))))
 
 (defn -main [& _]
   (let [config (config)]

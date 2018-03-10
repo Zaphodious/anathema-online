@@ -9,7 +9,7 @@
             [figwheel-sidecar.repl-api :as figwheel]
             [garden-watcher.core :refer [new-garden-watcher]]
             [anathema-online.config :refer [config]]
-            [anathema-online.components.db :as db]))
+            [anathema-online.components.mongo :as db]))
 
 (defn dev-system []
   (assoc (anathema-online.application/app-system (config))

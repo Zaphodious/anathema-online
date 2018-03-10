@@ -1,4 +1,4 @@
-(ns anathema-online.components.db
+(ns anathema-online.components.mongo
   (:require [com.stuartsierra.component :as component]
             [environ.core :refer [env]]
             [monger.core :as mg]
@@ -10,14 +10,15 @@
             [byte-transforms :as bt]
             [byte-streams :as bs]
             [cemerick.url :as url :refer [url-decode url-encode]]
-            [clojure.core.async :as async]))
+            [clojure.core.async :as async]
+            [anathema-online.disk :as disk]))
 
-(defmulti write-object (fn [db object]
-                         (println "finding thing for " (keyword (:category object)))
-                         (keyword (:category object))))
+(defmulti write-db-object (fn [db object]
+                           (println "finding thing for " (keyword (:category object)))
+                           (keyword (:category object))))
 
-(defmulti read-object (fn [db category id]
-                        category))
+(defmulti read-db-object (fn [db category id]
+                          category))
 
 (def entity-collection "entities")
 (def character-collection "character")
@@ -82,27 +83,27 @@
                  get-entity-from-db)]
     (get-fn db id)))
 
-(defmethod write-object :default
+(defmethod write-db-object :default
   [db player-object]
   (put-thing-in-db! db player-object))
 
-(defmethod read-object :default
+(defmethod read-db-object :default
   [db category id]
   (get-thing-from-db db category id))
 
-(defmethod write-object :character
+(defmethod write-db-object :character
   [db character-object]
   (put-entity-in-db! db character-object character-collection))
 
-(defmethod read-object :character
+(defmethod read-db-object :character
   [db category id]
   (get-entity-from-db db character-collection id))
 
-(defmethod write-object :rulebook
+(defmethod write-db-object :rulebook
   [db rulebook-object]
   (put-entity-in-db! db rulebook-object rulebook-collection))
 
-(defmethod read-object :rulebook
+(defmethod read-db-object :rulebook
   [db category id]
   (get-entity-from-db db rulebook-collection id))
 
@@ -115,7 +116,7 @@
          (map (fn [a] (mc/find-maps db a)))
          (reduce into)
          (map (fn [{:keys [_id category]}] [(keyword category) _id]))
-         (map (fn [[category id]] (read-object db category id)))
+         (map (fn [[category id]] (read-db-object db category id)))
          (reduce (fn [r {:keys [category] :as a}]
                    (sp/transform [(sp/keypath category)]
                                  (fn [v] (conj v a))
@@ -128,11 +129,11 @@
 (defn restore-dev-db! [db]
   (let [collections [player-collection rulebook-collection character-collection]]
     (->> collections
-        (map make-backup-file-name)
-        (map slurp)
-        (map read-string)
-        (reduce into [])
-        (map (fn [a] (write-object db a))))))
+         (map make-backup-file-name)
+         (map slurp)
+         (map read-string)
+         (reduce into [])
+         (map (fn [a] (write-db-object db a))))))
 
 
 (defn remove-all-in-category [db category]
@@ -141,55 +142,20 @@
 (defn remove-object [db object]
   (mc/drop-index db (name (:category object)) (:key object)))
 
-(defn spinup-db-writer [db write-mult]
-  (let [sub-chan (async/chan)]
-       (async/tap write-mult sub-chan)
-       (async/go-loop
-         []
-         (when-let [{:keys [path view]} (async/<! sub-chan)]
-           (println "Writing " view " to " path)
-           (let [parent-view (get-path-parent-from-db db path)
-                 mod-view (sp/transform [(apply sp/keypath (rest (rest path)))]
-                                        (fn [a] view)
-                                        parent-view)]
-             (println "Further, this is written- " mod-view)))
-         (recur))))
-
-(defn spinup-db-writer [db write-mult]
-  (async/go
-    (println "Making db write tap")
-    (let [sub-chan (async/tap write-mult (async/chan 1))]
-      (println "Starting Go Loop")
-      (async/go-loop []
-        (when-let [take-result (async/<! sub-chan)]
-          (println "took a result! " take-result)
-          (write-object db take-result))
-        (recur))
-      (println "Go loop started."))))
-;{:category category :id id :channel c :request-type :disk-read}
-(defn spinup-db-reader [db read-chan]
-  (async/go-loop []
-    (when-let [{:keys [category id return-atom] :as read-request}
-               (async/<! read-chan)]
-      (reset! return-atom (read-object db category id)))
-    (recur)))
-
-
-(defrecord DBComponent []
+(defrecord MongoDiskComponent [db conn environ]
   component/Lifecycle
-  (start [dbc]
-    (let [{:keys [db-uri]} (:environ dbc)
-          {:keys [write-mult read-chan]} (:disk dbc)
-          {:keys [db conn] :as connection-map} (connect-to-db! db-uri)]
-      (println "--- Starting the DB thing!")
-      (spinup-db-writer db write-mult)
-      (spinup-db-reader db read-chan)
-      (into dbc connection-map)))
-  (stop [dbc]
-    (mg/disconnect (:conn dbc))
-    dbc))
+  (start [{{:keys [db-uri]} :environ :as this}]
+    (into this (connect-to-db! db-uri)))
+  (stop []
+    (mg/disconnect conn))
 
-(defn new-db []
-  (->DBComponent))
+  disk/Disk
+  (read-object [this category key]
+    (read-db-object db category key))
+  (write-object [this object]
+    (async/go
+      (write-db-object db object)
+      this)))
 
-
+(defn new-mongo-disk []
+  (->MongoDiskComponent nil nil nil))
