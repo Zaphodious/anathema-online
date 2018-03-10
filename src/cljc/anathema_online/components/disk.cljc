@@ -23,9 +23,9 @@
 (defn disk-read
   "Fetches the data under the category and id, returns as a core.async channel."
   [d category id]
-  (let [c (async/chan)]
-    (async/go (async/>! (:read-chan d) {:category category :id id :channel c :request-type :disk-read})
-              (async/<! c))))
+  (let [return-atom (atom nil)]
+    (async/go (async/>! (:read-chan d) {:category category :id id :return-atom return-atom :request-type :disk-read}))
+    return-atom))
 
 (defn disk-write!
   "Requests that the replacement object be put under the category and id. Returns a channel onto which the success of the put will be put."

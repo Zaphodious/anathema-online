@@ -135,7 +135,11 @@
         (map (fn [a] (write-object db a))))))
 
 
+(defn remove-all-in-category [db category]
+  (mc/drop-indexes db (name category)))
 
+(defn remove-object [db object]
+  (mc/drop-index db (name (:category object)) (:key object)))
 
 (defn spinup-db-writer [db write-mult]
   (let [sub-chan (async/chan)]
@@ -152,21 +156,34 @@
          (recur))))
 
 (defn spinup-db-writer [db write-mult]
-    (let [sub-chan (async/chan)]
-      (async/tap write-mult sub-chan)
+  (async/go
+    (println "Making db write tap")
+    (let [sub-chan (async/tap write-mult (async/chan 1))]
+      (println "Starting Go Loop")
       (async/go-loop []
         (when-let [take-result (async/<! sub-chan)]
-          (write-object db take-result)
-          (recur)))))
+          (println "took a result! " take-result)
+          (write-object db take-result))
+        (recur))
+      (println "Go loop started."))))
+;{:category category :id id :channel c :request-type :disk-read}
+(defn spinup-db-reader [db read-chan]
+  (async/go-loop []
+    (when-let [{:keys [category id return-atom] :as read-request}
+               (async/<! read-chan)]
+      (reset! return-atom (read-object db category id)))
+    (recur)))
 
 
 (defrecord DBComponent []
   component/Lifecycle
   (start [dbc]
     (let [{:keys [db-uri]} (:environ dbc)
-          {:keys [write-mult]} (:disk dbc)
+          {:keys [write-mult read-chan]} (:disk dbc)
           {:keys [db conn] :as connection-map} (connect-to-db! db-uri)]
       (println "--- Starting the DB thing!")
+      (spinup-db-writer db write-mult)
+      (spinup-db-reader db read-chan)
       (into dbc connection-map)))
   (stop [dbc]
     (mg/disconnect (:conn dbc))
