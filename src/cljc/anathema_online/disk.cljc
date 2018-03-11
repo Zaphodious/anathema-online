@@ -1,7 +1,8 @@
 (ns anathema-online.disk
   "Protocol and functions for making and handling things which store a particular kind of state."
   (:require [com.rpl.specter :as sp]
-            [clojure.core.async :as async]))
+            [clojure.core.async :as async]
+            [clojure.spec.alpha :as s]))
 
 (defprotocol Disk
   (read-object [this category key]
@@ -10,6 +11,8 @@
     "Asynchronously puts a map containing a :category and :key field into the disk. Returns a core.async channel that puts 'this' when the write finishes.")
   (clear-category! [this category]
     "Deletes each record in a category. Necessary for testing."))
+
+(s/def ::disk #(satisfies? Disk %))
 
 (defn change-object!
   "Changes a small part of the state. Path-in is a vec of associative keys (ie, meaningful to (get)).
