@@ -9,8 +9,7 @@
             [anathema-online.routes :refer [home-routes]]
             [anathema-online.components.environ :refer [new-environ]]
             [anathema-online.components.mongo :refer [new-mongo-disk]]
-            [anathema-online.components.atom-disk :refer [new-atom-disk]]
-            [anathema-online.components.editor :refer [new-editor]]))
+            [anathema-online.components.atom-disk :refer [new-atom-disk]]))
 
 (defn app-system [config]
   (component/system-map

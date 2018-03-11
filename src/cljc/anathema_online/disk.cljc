@@ -7,7 +7,9 @@
   (read-object [this category key]
     "Returns the map from the disk corresponding to the provided category and id.")
   (write-object! [this object]
-    "Asynchronously puts a map containing a :category and :key field into the disk. Returns a core.async channel that puts 'this' when the write finishes."))
+    "Asynchronously puts a map containing a :category and :key field into the disk. Returns a core.async channel that puts 'this' when the write finishes.")
+  (clear-category! [this category]
+    "Deletes each record in a category. Necessary for testing."))
 
 (defn change-object!
   "Changes a small part of the state. Path-in is a vec of associative keys (ie, meaningful to (get)).

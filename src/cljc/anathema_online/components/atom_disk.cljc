@@ -21,7 +21,9 @@
         [sp/ATOM (sp/keypath category key)]
         (fn [a] object)
         state-atom)
-      this)))
+      this))
+  (clear-category! [{:keys [state-atom] :as this} category]
+    (swap! state-atom (fn [a] (dissoc a category)))))
 
 (defn new-atom-disk []
   (->AtomDiskComponent))

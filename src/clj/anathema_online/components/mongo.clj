@@ -155,7 +155,9 @@
   (write-object! [this object]
     (async/go
       (write-db-object db object)
-      this)))
+      this))
+  (clear-category! [this category]
+    (mc/drop db (name category))))
 
 (defn new-mongo-disk []
   (->MongoDiskComponent nil nil nil))
