@@ -19,7 +19,10 @@
     :handler    (-> (new-handler)
                     (component/using [:routes :middleware]))
     :http       (-> (new-web-server (:http-port config))
-                    (component/using [:handler]))))
+                    (component/using [:handler]))
+    :environ    (new-environ)
+    :disk       (-> (new-mongo-disk)
+                    (component/using [:environ]))))
 
 (defn -main [& _]
   (let [config (config)]

@@ -15,7 +15,7 @@
     (sp/select-first
       [sp/ATOM (sp/keypath category key)]
       state-atom))
-  (write-object [{:keys [state-atom] :as this} {:keys [category key] :as object}]
+  (write-object! [{:keys [state-atom] :as this} {:keys [category key] :as object}]
     (async/go
       (sp/transform
         [sp/ATOM (sp/keypath category key)]

@@ -146,13 +146,13 @@
   component/Lifecycle
   (start [{{:keys [db-uri]} :environ :as this}]
     (into this (connect-to-db! db-uri)))
-  (stop []
+  (stop [this]
     (mg/disconnect conn))
 
   disk/Disk
   (read-object [this category key]
     (read-db-object db category key))
-  (write-object [this object]
+  (write-object! [this object]
     (async/go
       (write-db-object db object)
       this)))
