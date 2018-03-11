@@ -10,27 +10,34 @@
                   :id "12345"
                   :name "Happiness"})
 
-(def system
-  (component/start-system
-    (component/system-map
-      :disk (atom-disk/new-atom-disk))))
+(def system-atom
+  (atom nil))
 
-(defn ensure-system-running-fixture [fun]
-  (if system
-    (fun)
-    (do (user/go)
-        (fun))))
-
-(defn clear-test-category-fixture [fun]
-  (do (disk/clear-category! (:disk system) (:category test-data-1))
-      (fun)))
-
-(test/use-fixtures
-  :each clear-test-category-fixture)
+(defn refresh-system-atom []
+  (reset! system-atom
+    (component/start-system
+      (component/system-map
+        :disk (atom-disk/new-atom-disk)))))
 
 (test/deftest testing-system-works
   (ast/async-test
     (async/go
       (test/is (= 2 2)))))
+
+(defn ensure-system-running-fixture [fun]
+  (if @system-atom
+    (fun)
+    (do (refresh-system-atom)
+        fun)))
+
+(defn clear-test-category-fixture [fun]
+  (do (disk/clear-category! (:disk @system-atom) (:category test-data-1))
+      (fun)))
+
+(test/use-fixtures
+  :once ensure-system-running-fixture
+  :each clear-test-category-fixture)
+
+
 
 
