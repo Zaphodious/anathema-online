@@ -3,19 +3,20 @@
             [compojure.core :refer [ANY GET PUT POST DELETE routes context]]
             [compojure.route :refer [resources]]
             [anathema-online.disk :as adisk]
-            [ring.util.response :as resp :refer [response]]))
+            [ring.util.response :as resp :refer [response]]
+            [anathema-online.data :as data]))
 
 (defn home-routes [{:keys [disk] :as endpoint}]
   (routes
     (context "/data" []
       (GET "/" [] (resp/content-type (response "<h1>Thing</h1>") "text/html")))
 
-    (GET "/data/:category/:key.:filetype" [category key filetype]
+    (GET "/data/fetch/:category/:key.:filetype" [category key filetype]
       (-> (adisk/read-object
             disk
             (keyword category)
             key)
-          pr-str
+          (data/write-data-as (keyword filetype))
           resp/response
           (resp/content-type "text/edn")))
     ;(assoc :headers {"Content-Type" "text/edn; charset=utf-8"})))

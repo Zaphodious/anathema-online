@@ -1,7 +1,10 @@
 (ns anathema-online.data
   (:require [clojure.spec.alpha :as s]
             [com.rpl.specter :as sp]
-            [clojure.spec.gen.alpha :as sg]))
+            [clojure.spec.gen.alpha :as sg]
+            [clojure.data.json :as cj]
+            [hashids.core :as h]
+            [cognitect.transit :as transit]))
 
 (s/def ::id (s/and string? #(not (empty? %))))
 
@@ -24,3 +27,18 @@
   (sp/transform [(sp/keypath path-in)]
                 (fn [a] new-thing)
                 game-entity))
+
+(defn to-transit [thing]
+  #?(:clj
+      (let [out (ByteArrayOutputStream. 4096)
+            writer (transit/writer out :json)]
+        (transit/write writer thing)
+        (.toString out))
+     :cljs
+       (transit/write (transit/writer :json) (pr-str thing))))
+
+(defn write-data-as [thing format]
+  (case format
+    :edn (pr-str thing)
+    :json (cj/write-str thing)
+    :transit (to-transit thing)))

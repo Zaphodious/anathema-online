@@ -7,6 +7,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.671" :scope "provided"]
                  [com.cognitect/transit-clj "0.8.300"]
+                 [com.cognitect/transit-cljs "0.8.243"]
                  [ring "1.6.2"]
                  [ring/ring-defaults "0.3.1"]
                  [bk/ring-gzip "0.2.1"]
@@ -24,6 +25,7 @@
                  [gzip-util "0.1.0-SNAPSHOT"]
                  [com.cemerick/url "0.1.1"]
                  [byte-transforms "0.1.4"]
+                 [jstrutz/hashids "1.0.1"]
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
