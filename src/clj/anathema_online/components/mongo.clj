@@ -56,6 +56,7 @@
         (vec (mc/find-maps db "players"))))
 
 (defn- put-thing-in-db! [db {:keys [category key] :as thingy}]
+  (println category " " key " " thingy)
   (mc/update db (name (:category thingy))
              {:_id (or key "nill")}
              thingy
@@ -153,9 +154,7 @@
   (-read-object- [this category key]
     (read-db-object db category key))
   (-write-object!- [this object]
-    (async/go
-      (write-db-object db object)
-      this))
+    (write-db-object db object))
   (-clear-category!- [this category]
     (mc/drop db (name category))))
 

@@ -2,10 +2,21 @@
   (:require [clojure.java.io :as io]
             [compojure.core :refer [ANY GET PUT POST DELETE routes]]
             [compojure.route :refer [resources]]
-            [ring.util.response :refer [response]]))
+            [anathema-online.disk :as adisk]
+            [ring.util.response :as resp :refer [response]]))
 
-(defn home-routes [endpoint]
+(defn home-routes [{:keys [disk] :as endpoint}]
   (routes
+    (GET "/data/:category/:key.:filetype" [category key filetype]
+      (-> (adisk/read-object
+            disk
+            (keyword category)
+            key)
+          pr-str
+          resp/response
+          (resp/content-type "text/edn")))
+    ;(assoc :headers {"Content-Type" "text/edn; charset=utf-8"})))
+
     (GET "/" _
       (-> "public/index.html"
           io/resource

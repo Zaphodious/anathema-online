@@ -24,6 +24,7 @@
                  [gzip-util "0.1.0-SNAPSHOT"]
                  [com.cemerick/url "0.1.1"]
                  [byte-transforms "0.1.4"]
+                 [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
   :plugins [[lein-cljsbuild "1.1.6"]

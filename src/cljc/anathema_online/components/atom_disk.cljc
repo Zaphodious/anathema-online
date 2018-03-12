@@ -16,12 +16,10 @@
       [sp/ATOM (sp/keypath category key)]
       state-atom))
   (-write-object!- [{:keys [state-atom] :as this} {:keys [category key] :as object}]
-    (async/go
-      (sp/transform
-        [sp/ATOM (sp/keypath category key)]
-        (fn [a] object)
-        state-atom)
-      this))
+    (sp/transform
+      [sp/ATOM (sp/keypath category key)]
+      (fn [a] object)
+      state-atom))
   (-clear-category!- [{:keys [state-atom] :as this} category]
     (swap! state-atom (fn [a] (dissoc a category)))))
 
