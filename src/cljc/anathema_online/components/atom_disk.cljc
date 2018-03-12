@@ -11,18 +11,18 @@
     (assoc this :state-atom (atom {})))
   (stop [this]
     this)
-  (read-object [{:keys [state-atom] :as this} category key]
+  (-read-object- [{:keys [state-atom] :as this} category key]
     (sp/select-first
       [sp/ATOM (sp/keypath category key)]
       state-atom))
-  (write-object! [{:keys [state-atom] :as this} {:keys [category key] :as object}]
+  (-write-object!- [{:keys [state-atom] :as this} {:keys [category key] :as object}]
     (async/go
       (sp/transform
         [sp/ATOM (sp/keypath category key)]
         (fn [a] object)
         state-atom)
       this))
-  (clear-category! [{:keys [state-atom] :as this} category]
+  (-clear-category!- [{:keys [state-atom] :as this} category]
     (swap! state-atom (fn [a] (dissoc a category)))))
 
 (defn new-atom-disk []

@@ -150,13 +150,13 @@
     (mg/disconnect conn))
 
   disk/Disk
-  (read-object [this category key]
+  (-read-object- [this category key]
     (read-db-object db category key))
-  (write-object! [this object]
+  (-write-object!- [this object]
     (async/go
       (write-db-object db object)
       this))
-  (clear-category! [this category]
+  (-clear-category!- [this category]
     (mc/drop db (name category))))
 
 (defn new-mongo-disk []

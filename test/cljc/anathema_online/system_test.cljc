@@ -31,7 +31,7 @@
         fun)))
 
 (defn clear-test-category-fixture [fun]
-  (do (disk/clear-category! (:disk @system-atom) (:category test-data-1))
+  (do (disk/-clear-category!- (:disk @system-atom) (:category test-data-1))
       (fun)))
 
 (test/use-fixtures
