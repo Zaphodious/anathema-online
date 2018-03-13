@@ -2,10 +2,9 @@
   (:require [clojure.spec.alpha :as s]
             [com.rpl.specter :as sp]
             [clojure.spec.gen.alpha :as sg]
-            [clojure.data.json :as cj]
             #?(:clj [hashids.core :as h])
             [cognitect.transit :as transit])
-  (:import (java.io ByteArrayOutputStream)))
+  #?(:clj (:import (java.io ByteArrayOutputStream))))
 
 (s/def ::id (s/and string? #(not (empty? %))))
 
@@ -29,20 +28,21 @@
                 (fn [a] new-thing)
                 game-entity))
 
-(defn to-transit [thing]
+(defn to-transit [thing verbose?]
   #?(:clj
       (let [out (ByteArrayOutputStream. 4096)
-            writer (transit/writer out :json)]
+            writer (transit/writer out (if verbose? :json-verbose :json))]
         (transit/write writer thing)
         (.toString out))
      :cljs
-       (transit/write (transit/writer :json) (pr-str thing))))
+       (transit/write (transit/writer (if verbose? :json-verbose :json))
+                      thing)))
 
 (defn write-data-as [thing format]
   (case format
     :edn (pr-str thing)
-    :json (cj/write-str thing)
-    :transit (to-transit thing)))
+    :json (to-transit thing true)
+    :transit (to-transit thing false)))
 
 (defn content-type-for [format]
   (case (keyword format)
