@@ -6,11 +6,12 @@
 
 (defrecord AtomDiskComponent []
   component/Lifecycle
-  disk/Disk
   (start [this]
     (assoc this :state-atom (atom {})))
   (stop [this]
     this)
+
+  disk/Disk
   (-read-object- [{:keys [state-atom] :as this} category key]
     (sp/select-first
       [sp/ATOM (sp/keypath category key)]

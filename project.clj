@@ -66,7 +66,7 @@
                 :source-paths ["src/cljs" "test/cljs" "src/cljc" "test/cljc"]
                 :compiler {:output-to "resources/public/js/compiled/testable.js"
                            :main anathema-online.test-runner
-                           :optimizations :none}}
+                           :optimizations :advanced}}
 
                {:id "min"
                 :source-paths ["src/cljs" "src/cljc"]
