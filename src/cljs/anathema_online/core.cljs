@@ -1,5 +1,6 @@
 (ns anathema-online.core
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [anathema-online.system :as asys]))
 
 (enable-console-print!)
 
@@ -10,3 +11,5 @@
 
 (defn render []
   (rum/mount (greeting) (. js/document (getElementById "app"))))
+
+(asys/go)
