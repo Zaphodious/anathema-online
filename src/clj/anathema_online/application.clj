@@ -26,6 +26,7 @@
 
 (defn -main [& _]
   (let [config (config)]
+
     (-> config
         app-system
         component/start)

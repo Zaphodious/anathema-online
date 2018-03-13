@@ -3,8 +3,9 @@
             [com.rpl.specter :as sp]
             [clojure.spec.gen.alpha :as sg]
             [clojure.data.json :as cj]
-            [hashids.core :as h]
-            [cognitect.transit :as transit]))
+            #?(:clj [hashids.core :as h])
+            [cognitect.transit :as transit])
+  (:import (java.io ByteArrayOutputStream)))
 
 (s/def ::id (s/and string? #(not (empty? %))))
 
@@ -42,3 +43,18 @@
     :edn (pr-str thing)
     :json (cj/write-str thing)
     :transit (to-transit thing)))
+
+(defn content-type-for [format]
+  (case (keyword format)
+    :edn "text/edn"
+    :json "text/json"
+    :transit "text/json"))
+
+#?(:clj (def ^:private hash-ops {:salt "Exalted Is Best Game!"}))
+(defn new-id []
+  #?(:clj
+     (h/encode hash-ops (rand-int 99999) (rand-int 99999) (rand-int 99999))
+     :cljs (str "temp_" (.toLocaleDateString (js/Date.)) (rand-int 999999) (rand-int 999999))))
+
+(defn new-entity [category])
+

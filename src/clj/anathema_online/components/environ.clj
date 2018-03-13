@@ -7,7 +7,8 @@
   component/Lifecycle
   (start [ec]
     (-> ec
-        (assoc :db-uri (url/url-decode (env :mongodb-uri "")))))
+        (assoc :db-uri (url/url-decode (env :mongodb-uri "")))
+        (assoc :masterkey (env :masterkey))))
   (stop [ec]
     ec))
 

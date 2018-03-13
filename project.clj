@@ -117,7 +117,8 @@
 
               :plugins [[lein-figwheel "0.5.11"]
                         [lein-doo "0.1.7"]]
-              :env {:mongodb-uri "mongodb%3A%2F%2Flocalhost%3A27017%2Fanathema"}
+              :env {:mongodb-uri "mongodb%3A%2F%2Flocalhost%3A27017%2Fanathema"
+                    :masterkey "devkey42"}
               :source-paths ["dev"]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}
 

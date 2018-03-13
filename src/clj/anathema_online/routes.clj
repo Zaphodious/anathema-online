@@ -4,13 +4,16 @@
             [compojure.route :refer [resources]]
             [anathema-online.disk :as adisk]
             [ring.util.response :as resp :refer [response]]
-            [anathema-online.data :as data]))
+            [anathema-online.data :as data]
+            [anathema-online.creation :as creation]
+            [anathema-online.disk :as disk]))
 
-(defn home-routes [{:keys [disk] :as endpoint}]
+(defn master-key-present? [{environ-key :masterkey}
+                           {{:strs [masterkey environ]} :headers :as request}]
+  (= environ-key masterkey))
+
+(defn home-routes [{:keys [disk environ] :as endpoint}]
   (routes
-    (context "/data" []
-      (GET "/" [] (resp/content-type (response "<h1>Thing</h1>") "text/html")))
-
     (GET "/data/fetch/:category/:key.:filetype" [category key filetype]
       (-> (adisk/read-object
             disk
@@ -18,8 +21,20 @@
             key)
           (data/write-data-as (keyword filetype))
           resp/response
-          (resp/content-type "text/edn")))
-    ;(assoc :headers {"Content-Type" "text/edn; charset=utf-8"})))
+          (resp/content-type (data/content-type-for filetype))))
+    (GET "/bla/" [:as {{:strs [masterkey]} :headers :as a}]
+      (str (pr-str environ) (master-key-present? environ a)))
+    (POST "/data/new/:category" [category :as request]
+      (let [new-key (data/new-id)
+            new-thing (creation/new-thing (keyword category) "Unnamed" new-key false)
+            write-result (when new-thing (disk/write-object! disk new-thing))]
+        (if new-thing
+          (resp/created (str "/data/fetch/" category "/" new-key ".edn"))
+          (if (= :player (keyword category))
+            (assoc (resp/not-found "Please use the sign-up page to create a new player.")
+              :status 403)
+            (resp/not-found (str "No support exists for creating new " category "-type entities."))))))
+
 
     (GET "/" _
       (-> "public/index.html"
