@@ -1,6 +1,6 @@
 (ns anathema-online.components.ui
   (:require [com.stuartsierra.component :as component]
-            [anathema-online.core :refer [render]]))
+            [anathema-online.past-core :refer [render]]))
 
 (defrecord UIComponent []
   component/Lifecycle

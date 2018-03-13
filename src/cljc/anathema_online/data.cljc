@@ -55,6 +55,3 @@
   #?(:clj
      (h/encode hash-ops (rand-int 99999) (rand-int 99999) (rand-int 99999))
      :cljs (str "temp_" (.toLocaleDateString (js/Date.)) (rand-int 999999) (rand-int 999999))))
-
-(defn new-entity [category])
-
