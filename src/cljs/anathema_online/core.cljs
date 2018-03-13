@@ -7,4 +7,4 @@
 (println "lba bla bla bla")
 (println "Is this thing on?")
 
-(asys/go)
+;(asys/go)

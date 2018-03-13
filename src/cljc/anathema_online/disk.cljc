@@ -34,7 +34,7 @@
 (defn clear-category! [this category] (-clear-category!- this category))
 
 (s/fdef change-object!
-        :args (s/cat :this ::data/disk :category ::data/category :path-in ::data/path :swap-fn ::data/swapper)
+        :args (s/cat :this ::data/disk :category ::data/category :key ::data/id :path-in ::data/path :swap-fn ::data/swapper)
         :ret ::data/disk)
 
 (defn change-object!
@@ -46,3 +46,14 @@
                      [(apply sp/keypath path-in)]
                      change-fn
                      (-read-object- this category key))))
+
+(s/fdef get-for-player
+        :args (s/cat :disk ::data/disk :player-key ::data/id)
+        :ret (s/* ::data/game-entity))
+
+(defn get-for-player [disk player-key]
+  (map (fn [[k v]]
+         (if (seq? v)
+           (map #(read-object disk k %) v)
+           []))
+       (read-object disk :player player-key)))

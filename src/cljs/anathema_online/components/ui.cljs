@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [anathema-online.past-core :refer [render]]))
 
-(defrecord UIComponent []
+(defrecord UIComponent [disk]
   component/Lifecycle
   (start [component]
     (render)
@@ -11,4 +11,4 @@
     component))
 
 (defn new-ui-component []
-  (map->UIComponent {}))
+  (->UIComponent nil))
