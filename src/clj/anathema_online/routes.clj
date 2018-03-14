@@ -6,15 +6,22 @@
             [ring.util.response :as resp :refer [response]]
             [anathema-online.data :as data]
             [anathema-online.creation :as creation]
-            [anathema-online.disk :as disk]))
+            [anathema-online.disk :as disk]
+            [clojure.string :as str]
+            [rum.core :as rum]))
 
 (defn master-key-present? [{environ-key :masterkey}
                            {{:strs [masterkey environ]} :headers :as request}]
   (= environ-key masterkey))
 
+(defn de-pluralize [plural-category]
+  (cond
+    (= '(\i \e \s) (->> plural-category reverse (take 3) reverse)) (str/replace plural-category "ies" "y")
+    (= \s (last plural-category)) (->> plural-category drop-last (reduce str))))
+
 (defn home-routes [{:keys [disk environ] :as endpoint}]
   (routes
-    (GET "/data/fetch/:category/:key.:filetype" [category key filetype]
+    (GET "/data/:category/:key.:filetype" [category :<< de-pluralize, key filetype]
       (-> (adisk/read-object
             disk
             (keyword category)
