@@ -165,7 +165,8 @@
              :write-object! write-db-object
              :clear-category! drop-category})))
   (stop [this]
-    (mg/disconnect conn)))
+    (mg/disconnect conn)
+    this))
 
 (defn new-mongo-disk []
   (map->MongoDiskComponent {}))

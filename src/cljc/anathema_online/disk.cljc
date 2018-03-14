@@ -53,19 +53,19 @@
                    (sp/transform
                      [(apply sp/keypath path-in)]
                      change-fn
-                     (read-object this category key))))
+                     (read-object [this category key]))))
 
 (s/fdef get-for-player
         :args (s/cat :disk ::data/disk :player-key ::data/id)
         :ret map?)
 
 (defn get-for-player [disk player-key]
-  (->> (read-object disk :player player-key)
-       (map (fn [[k v]]
-              {k (when (coll? v)
-                   (map #(read-object disk k %) v))}))
-       (filter (fn [v]
-                 (not (nil? (second (first (vec v)))))))
-       (reduce into)))
+  (let [{:keys [view path] :as player-viewmap} (read-object disk [:player player-key])]
+    (->> view
+         (map (fn [[k v]]
+                {k (if (coll? v)
+                     (vec (map #(read-object disk [k % ]) v))
+                     v)}))
+         (reduce into))))
 
 

@@ -21,6 +21,11 @@
 
 (defn home-routes [{:keys [disk environ] :as endpoint}]
   (routes
+    (GET "/data/players/:key.full.:filetype" [key filetype]
+      (-> (disk/get-for-player disk key)
+          (data/write-data-as (keyword filetype))
+          resp/response
+          (resp/content-type (data/content-type-for filetype))))
     (GET "/data/:category/:key.:filetype" [category :<< de-pluralize, key filetype]
       (-> (adisk/read-object
             disk

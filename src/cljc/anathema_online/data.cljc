@@ -19,6 +19,10 @@
 
 (s/def ::game-entity (s/keys :req-un [::category ::id]))
 
+(s/def ::view any?)
+
+(s/def ::viewmap (s/keys :req-un [::path ::view]))
+
 (s/fdef change-game-entity
         :args (s/cat :path-in ::path, :game-entity ::game-entity, :new-thing any?)
         :ret ::game-entity)
