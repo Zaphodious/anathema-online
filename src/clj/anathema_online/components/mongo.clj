@@ -17,16 +17,17 @@
                              (println "finding thing for " (keyword (:category object)))
                              (keyword (:category object))))
 
-(defn write-db-object [db object]
+(defn write-db-object [db {object :view :as viewmap}]
   (let [real-db (if (map? db) (:db db) db)]
-    (-write-db-object- real-db object)))
+    (-write-db-object- real-db (if object object viewmap))))
 
 (defmulti -read-db-object- (fn [db category id]
                             category))
 
-(defn read-db-object [db category id]
+(defn read-db-object [db [category id :as path]]
   (let [real-db (if (map? db) (:db db) db)]
-    (-read-db-object- real-db category id)))
+    {:path path
+     :view (-read-db-object- real-db category id)}))
 
 (defn drop-category [db category]
   (let [real-db (if (map? db) (:db db) db)]

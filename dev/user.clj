@@ -28,7 +28,7 @@
 (def start reloaded.repl/start)
 (def stop reloaded.repl/stop)
 (def go reloaded.repl/go)
-(def reset reloaded.repl/reset)
+(defn reset [] (do (stop) (go)))
 (def reset-all reloaded.repl/reset-all)
 
 ;; deprecated, to be removed in Chestnut 1.0

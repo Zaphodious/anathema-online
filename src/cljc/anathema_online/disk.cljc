@@ -1,7 +1,15 @@
 (ns anathema-online.disk
-  "Functions for handling 'disk' components, which are maps (records, etc) with the following keys:
-  :read-object (fn [this category key] Returns the map from the disk corresponding to the provided category and id.)
-  :write-object! (fn [this object] Puts a map containing a :category and :key field into the disk. Returns the disk.)
+  "Functions for handling 'disk' components.
+
+  First thing to note, is that any time a data entity is requested, it will be returned as a 'viewmap'.
+
+  A viewmap is a map containing
+    :path - a vector of (get)-able identifiers that functions as a URI *into* the data
+    :view - the thing itself.
+
+  Disk components themselves are maps (records, etc) with the following keys:
+  :read-object (fn [this [category key :as path]] Returning the viewmap for the resource. Only retrieves the first item under the key.)
+  :write-object! (fn [this, object] Puts the entity (containing :category and :key) into the Disk. No-op if viewmap. Returns the disk.)
   :clear-category! (fn [this category] Deletes each record in a category. Necessary for testing.).
   Ideally, disk components would be records satisfying com.stuartsierra.component/Lifecycle, but no assumptions are made here."
   (:require [com.rpl.specter :as sp]
@@ -16,10 +24,10 @@
 (s/def ::data/disk (s/keys :req-un [::read-object, ::write-object!, ::clear-category!]))
 
 (s/fdef read-object
-        :args (s/cat :this ::data/disk :category ::data/category :key ::data/id)
+        :args (s/cat :this ::data/disk :path ::data/path)
         :ret ::data/disk)
 
-(defn read-object [this category key] ((:read-object this) this category key))
+(defn read-object [this [category key]] ((:read-object this) this [category key]))
 
 (s/fdef write-object!
         :args (s/cat :this ::data/disk :object ::data/game-entity)
@@ -34,13 +42,13 @@
 (defn clear-category! [this category] ((:clear-category! this) this category))
 
 (s/fdef change-object!
-        :args (s/cat :this ::data/disk :category ::data/category :key ::data/id :path-in ::data/path :swap-fn ::data/swapper)
+        :args (s/cat :this ::data/disk :path-in ::data/path :swap-fn ::data/swapper)
         :ret ::data/disk)
 
 (defn change-object!
   "Changes a small part of the state. Path-in is a vec of associative keys (ie, meaningful to (get)).
   Returns the disk."
-  [this category key path-in change-fn]
+  [this [category key & path-in] change-fn]
   (write-object! this
                    (sp/transform
                      [(apply sp/keypath path-in)]

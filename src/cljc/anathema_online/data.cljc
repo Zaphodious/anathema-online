@@ -20,10 +20,11 @@
 (s/def ::game-entity (s/keys :req-un [::category ::id]))
 
 (s/fdef change-game-entity
-        :args (s/cat :path-in ::path, :new-thing any?, :game-entity ::game-entity)
+        :args (s/cat :path-in ::path, :game-entity ::game-entity, :new-thing any?)
         :ret ::game-entity)
 
-(defn change-game-entity [path-in new-thing game-entity]
+(defn change-game-entity [path-in game-entity
+                          new-thing]
   (sp/transform [(sp/keypath path-in)]
                 (fn [a] new-thing)
                 game-entity))

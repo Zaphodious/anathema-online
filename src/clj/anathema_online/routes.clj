@@ -24,8 +24,8 @@
     (GET "/data/:category/:key.:filetype" [category :<< de-pluralize, key filetype]
       (-> (adisk/read-object
             disk
-            (keyword category)
-            key)
+            [(keyword category)
+             key])
           (data/write-data-as (keyword filetype))
           resp/response
           (resp/content-type (data/content-type-for filetype))))
