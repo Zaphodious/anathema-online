@@ -1,12 +1,15 @@
 (ns anathema-online.system
   (:require [com.stuartsierra.component :as component]
-            [anathema-online.components.ui :refer [new-ui-component]]))
+            [anathema-online.components.reactive-ui :refer [new-ui-component]]
+            [anathema-online.components.atom-disk :refer [new-atom-disk]]))
 
 (declare system)
 
 (defn new-system []
   (component/system-map
-   :app-root (new-ui-component)))
+    :disk (new-atom-disk)
+    :ui (-> (new-ui-component)
+            (component/using [:disk]))))
 
 (defn init []
   (set! system (new-system)))

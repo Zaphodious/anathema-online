@@ -48,12 +48,12 @@
 (defn change-object!
   "Changes a small part of the state. Path-in is a vec of associative keys (ie, meaningful to (get)).
   Returns the disk."
-  [this [category key & path-in] change-fn]
+  [this [category key & path-in :as path] change-fn]
   (write-object! this
                    (sp/transform
                      [(apply sp/keypath path-in)]
                      change-fn
-                     (read-object [this category key]))))
+                     (read-object this [this category key]))))
 
 (s/fdef get-for-player
         :args (s/cat :disk ::data/disk :player-key ::data/id)
