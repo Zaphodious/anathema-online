@@ -1,4 +1,6 @@
-(ns anathema-online.ui.fields)
+(ns anathema-online.ui.fields
+  (:require [rum.core :as rum]
+            [anathema-online.ui.common :as ui.common]))
 
 (defmulti form-field-for :field-type)
 
@@ -10,5 +12,5 @@
                            :key       (pr-str path)
                            :class     (str class " " (if read-only "read-only" ""))
                            :on-change (if special-change-fn special-change-fn
-                                                            (standard-on-change-for path read-only))
+                                                            (ui.common/make-change-handler path change-fn read-only))
                            :readOnly  read-only}]))
