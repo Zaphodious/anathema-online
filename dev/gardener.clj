@@ -861,9 +861,11 @@
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
              :padding :5px}]
-       [:.interior {:padding :20px}
+       [:.interior {:padding :15px}
         [:ul
-         [:li {:border :solid}]]]]]]]])
+         [:li {:list-style :none} ;:border :solid}
+          [:* {:display :block
+               :width :100%}]]]]]]]]])
 
 
 

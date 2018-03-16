@@ -149,11 +149,16 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 #app-frame #content .page .section .interior {
-  padding: 20px;
+  padding: 15px;
 }
 
 #app-frame #content .page .section .interior ul li {
-  border: solid;
+  list-style: none;
+}
+
+#app-frame #content .page .section .interior ul li * {
+  display: block;
+  width: 100%;
 }
 
 .desktop .menu-assembly {
