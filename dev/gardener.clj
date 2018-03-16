@@ -145,7 +145,8 @@
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
 (def section-inner-shadow (str "inset " navshadow))
-
+(def menu-tab-shadow "0 0 5px black")
+(def menu-shadow (str "inset " menu-tab-shadow))
 (def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken sun-gold 10))))
 
 
@@ -763,9 +764,9 @@
         :font-size :13px}]
    [:html {:height  (calchelper :100% - :20px)}]
    [:body {:background-image (url "../img/solar_bg.jpg")
-           :height :100px
+           :height :100%
            :width :100%
-           :position :fixed
+           :position :relative
            :background-repeat :no-repeat
            :background-attachment :fixed
            :background-position [:right :center]
@@ -786,6 +787,7 @@
                  :position     :relative}
     [:.page-title {:position         :fixed
                    :top              0
+                   :padding 0
                    :width            :100%
                    :height           :45px
                    :font-size        :37px
@@ -794,41 +796,75 @@
                    :text-align       :center
                    :z-index          110}
      [:h1 {:font-size :inherit}]]
-    [:#menu {:background (-> (gc/as-hsl moon-blue)
-                             (assoc :saturation 70)
-                             (assoc :lightness 20))
+    [:#menu {
              :color :white
-             :text-shadow title-text-shadow
+             ;:text-shadow navshadow
              :display :block
              :position :fixed
-             :height :auto
-             :top :45px
-             :bottom 0
-             :width :200px
-             :left :-160px
-             :box-shadow navshadow
+             :height :200px
+             :width :100%
+             ;:top :45px
+             :bottom :-200px
+             :left :0px
              :transition [:left :0.5s]
              :z-index 50}
-     [:&:hover {:left :0%}]]
-    [:#content {:position :relative
-                :top      :45px
-                :left     :40px
-                :width    :100%}
-     [:.page
+     [:&:hover {:left :0%
+                :bottom :0px}]
+     [:ul {:position :relative
+           :box-shadow menu-shadow
+           :overflow :hide
+           :height :100%
+           :padding-left :15px
+           :background (-> (gc/as-hsl moon-blue)
+                           (assoc :saturation 20)
+                           (assoc :lightness 50))}
+      [:li {:display       :block
+            :border-bottom-style :groove
+            :border-bottom-color (-> (gc/as-hsl moon-blue)
+                                     (assoc :saturation 20)
+                                     (assoc :lightness 30))
+            :border-bottom-width :1px
+            :font-size     :20px
+            :width (calchelper :100% - :30px)
+            :padding       :4px}
+       [:&:last {:border :none}]
+       [:&:before {:content "\"\""}]]]
+     [:.tab {:position         :fixed
+             :box-shadow       menu-tab-shadow
+             :bottom           :-5px
+             :right            :10px
+             :display          :block
+             :border-radius    :5px
+             :background-color (-> (gc/as-hsl moon-blue)
+                                   (assoc :saturation 20)
+                                   (assoc :lightness 50))
+             :width            :40px
+             :height           :40px}]]
+    [:#content {:position :relative}
+                ;:top      :0px
+                ;:margin-top :45px
+                ;:left     :40px
+                ;:width    :100%}
+     [:.page {:position :relative
+              :margin-top :45px}
       [:.section {:background-image (url "../img/canvas_paper.png")
                   :border-width :1px
                   :border-color sun-gold
                   :position :relative
-                  :width (calchelper :100% - :20px)
+                  :width :100% ;(calchelper :100% - :20px)
                   :box-shadow elementshadow
                   :z-index 10}
-       [:.interior {:padding :20px}]
        [:h3 {:background-image section-title-gradient
              :font-size :20px
              :position :sticky
+             :top :45px
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
-             :padding :5px}]]]]]])
+             :padding :5px}]
+       [:.interior {:padding :20px}
+        [:ul
+         [:li {:border :solid}]]]]]]]])
+
 
 
 
