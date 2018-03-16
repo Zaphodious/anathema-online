@@ -79,24 +79,29 @@
 
 (def sun-gold (gc/hex->rgb "#f4c53e"))
 (def moon-blue (gc/complement sun-gold))
-(def section-title-gradient (linear-gradient
-                              (gc/darken sun-gold 20)
-                              (gc/darken sun-gold 30)
-                              (gc/darken sun-gold 30)
-                              (gc/darken sun-gold 30)
-                              (gc/darken sun-gold 30)
-                              (gc/darken sun-gold 30)))
+
+(def gbb-opac 0.8)
+(def section-title-gradient [(url "../img/brushed_metal.png")
+                             (linear-gradient
+                               (assoc (gc/darken sun-gold 45) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 40) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 35) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 30) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 05) :alpha  gbb-opac)
+                               (assoc (gc/lighten sun-gold 20) :alpha  gbb-opac))])
 
 (def title-background-image [;(url "../img/canvas_transparent_header.png")
                              (url "../img/brushed_metal.png")
                              (linear-gradient
-                               (assoc (gc/darken sun-gold 35) :alpha 0.7)
-                               (assoc (gc/darken sun-gold 30) :alpha 0.7)
-                               (assoc (gc/darken sun-gold 25) :alpha 0.7)
-                               (assoc (gc/darken sun-gold 20) :alpha 0.7)
-                               (assoc (gc/darken sun-gold 15) :alpha 0.7)
-                               (assoc (gc/lighten sun-gold 5) :alpha 0.7)
-                               (assoc (gc/lighten sun-gold 30) :alpha 0.7))])
+                               (assoc (gc/darken sun-gold 35) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 30) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 20) :alpha  gbb-opac)
+                               (assoc (gc/darken sun-gold 15) :alpha  gbb-opac)
+                               (assoc (gc/lighten sun-gold 5) :alpha  gbb-opac)
+                               (assoc (gc/lighten sun-gold 30) :alpha  gbb-opac))])
+
 
 (def menu-background-image
   (into [(linear-gradient
@@ -750,6 +755,82 @@
     [:input {
              :width (calchelper :100% - :20px)}]]])
 
+(def mobilestyle-new
+  [[:* {:margin 0
+        :padding 0
+        :font-family "Karma, sans-serif"
+        :font-weight :normal
+        :font-size :13px}]
+   [:html {:height  (calchelper :100% - :20px)}]
+   [:body {:background-image (url "../img/solar_bg.jpg")
+           :height :100px
+           :width :100%
+           :position :fixed
+           :background-repeat :no-repeat
+           :background-attachment :fixed
+           :background-position [:right :center]
+           :background-size :cover}]
+   [:h1 :h2 :h3 :h4 :h5 :h6
+    {:font-size   :25px
+     :font-family "Envision, serif"
+     :font-weight :bold
+     :color       (gc/darken moon-blue 45)}
+    [:p {:font-weight :normal}]]
+   [:#app {:width :100%}]
+   [:#app-frame {:top          0
+                 :left         0
+                 :height       :100%
+                 :margin-right 0
+                 ;:margin-bottom :-40px
+                 :width        :100% ;(calchelper :100% - :10px)
+                 :position     :relative}
+    [:.page-title {:position         :fixed
+                   :top              0
+                   :width            :100%
+                   :height           :45px
+                   :font-size        :37px
+                   :background-image title-background-image
+                   :text-shadow      title-text-shadow
+                   :text-align       :center
+                   :z-index          110}
+     [:h1 {:font-size :inherit}]]
+    [:#menu {:background (-> (gc/as-hsl moon-blue)
+                             (assoc :saturation 70)
+                             (assoc :lightness 20))
+             :color :white
+             :text-shadow title-text-shadow
+             :display :block
+             :position :fixed
+             :height :auto
+             :top :45px
+             :bottom 0
+             :width :200px
+             :left :-160px
+             :box-shadow navshadow
+             :transition [:left :0.5s]
+             :z-index 50}
+     [:&:hover {:left :0%}]]
+    [:#content {:position :relative
+                :top      :45px
+                :left     :40px
+                :width    :100%}
+     [:.page
+      [:.section {:background-image (url "../img/canvas_paper.png")
+                  :border-width :1px
+                  :border-color sun-gold
+                  :position :relative
+                  :width (calchelper :100% - :20px)
+                  :box-shadow elementshadow
+                  :z-index 10}
+       [:.interior {:padding :20px}]
+       [:h3 {:background-image section-title-gradient
+             :font-size :20px
+             :position :sticky
+             ;:width (calchelper :100% - :20px)
+             ;:height (calchelper :100% + :10px)
+             :padding :5px}]]]]]])
+
+
 
 (gs/defselector page ".page")
 (def desktop-style
@@ -947,7 +1028,7 @@
 
 (defn compile-style! []
   (spit "resources/public/css/style.css"
-        (->> (into mobilestyle desktop-style)
+        (->> (into mobilestyle-new desktop-style)
              (map g/css)
              (reduce (fn [a b] (str a "\n\n" b)))
              character-page-desktop-style

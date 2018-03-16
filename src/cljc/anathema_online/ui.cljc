@@ -15,7 +15,7 @@
             [rum.core :as rum]
             [anathema-online.disk :as disk]))
 
-(def fallback-initial-component ui.frame/frame)
+(def fallback-initial-component ui.frame/design-test-frame)
 
 (defn get-comp-fn
   "[ui-component, viewmap representing what to display]
