@@ -25,12 +25,12 @@
    [:.page-title
     [:h1 "Testing This"]]
    [:#menu
-    [:.tab]
-    [:ul [:li "Home"]
-         [:li "Settings"]
-         [:li "My Profile"]
-         [:li "My Characters"]
-         [:li "My Rulebooks"]]]
+    [:.tab.material-icons "menu"]
+    [:ul [:li [:i.material-icons.menu-icon "apps"] "Home"]
+         [:li [:i.material-icons.menu-icon "settings"] "Settings"]
+         [:li [:i.material-icons.menu-icon "storage"] "My Profile"]
+         [:li [:i.material-icons.menu-icon "face"] "My Characters"]
+         [:li [:i.material-icons.menu-icon "book"] "My Rulebooks"]]]
    [:#content
 
     [:.page (take 12 (repeat demo-section))]]])

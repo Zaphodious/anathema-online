@@ -762,15 +762,15 @@
         :font-family "Karma, sans-serif"
         :font-weight :normal
         :font-size :13px}]
-   [:html {:height  (calchelper :100% - :20px)}]
-   [:body {:background-image (url "../img/solar_bg.jpg")
-           :height :100%
-           :width :100%
-           :position :relative
+   [:html {:height  (calchelper :100% - :20px)
+           :background-image (url "../img/solar_bg.jpg")
            :background-repeat :no-repeat
            :background-attachment :fixed
            :background-position [:right :bottom]
            :background-size :cover}]
+   [:body {:height :100%
+           :width :100%
+           :position :relative}]
    [:h1 :h2 :h3 :h4 :h5 :h6
     {:font-size   :25px
      :font-family "Envision, serif"
@@ -828,9 +828,17 @@
             :width (calchelper :100% - :30px)
             :padding       :4px}
        [:&:last {:border :none}]
-       [:&:before {:content "\"\""}]]]
+       [:&:before {:content "\"\""}]
+       [:.menu-icon {:font-size :27px
+                     :text-align :center
+                     :vertical-align :middle
+                     :margin-top :-3px
+                     :margin-right :5px}]]]
      [:.tab {:position         :fixed
              :box-shadow       menu-tab-shadow
+             :color :white
+             :font-size :36px
+             ;:padding-left :30px
              :bottom           :-5px
              :right            :10px
              :display          :block
@@ -838,8 +846,8 @@
              :background-color (-> (gc/as-hsl moon-blue)
                                    (assoc :saturation 20)
                                    (assoc :lightness 50))
-             :width            :40px
-             :height           :40px}]]
+             :width            :35px
+             :height           :45px}]]
     [:#content {:position :relative}
                 ;:top      :0px
                 ;:margin-top :45px
