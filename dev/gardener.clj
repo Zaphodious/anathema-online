@@ -787,9 +787,9 @@
                  :position     :relative}
     [:.page-title {:position         :fixed
                    :top              0
-                   :padding 0
+                   :padding-top      :5px
                    :width            :100%
-                   :height           :45px
+                   :height           :40px
                    :font-size        :37px
                    :background-image title-background-image
                    :text-shadow      title-text-shadow
@@ -861,7 +861,9 @@
                   :position :relative
                   :width :100% ;(calchelper :100% - :20px)
                   :box-shadow elementshadow
-                  :z-index 10}
+                  :z-index 10
+                  :padding-top 0
+                  :margin-bottom :10px}
        [:h3 {:background-image section-title-gradient
              :font-size :20px
              :position :sticky
@@ -869,11 +871,37 @@
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
              :padding :5px}]
-       [:.interior {:padding :15px}
+       [:.interior {:padding :10px
+                    :padding-top :3px}
         [:ul
          [:li {:list-style :none} ;:border :solid}
           [:* {:display :block
-               :width :100%}]]]]]]]]])
+               :width :100%}]]]]]]]]
+   [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
+                              :background-image input-background
+                              ;:border-radius :9px
+                              :box-shadow       inputshadow
+                              ;:border-bottom    :solid
+                              ;:border-style :double
+                              :border           :none
+                              :border-width     :1px
+                              :border-color     :grey
+                              :border-left      :none
+                              :border-right     :none
+                              :border-top       :none
+                              :height           (-% 75)
+                              :margin-bottom    (-px 3)
+                              :margin-left      (-px -5)
+                              :padding          :5px
+                              :padding-right    0
+                              :vertical-align   :bottom}
+    ;:margin-left (-px 3)}
+    [:&:focus {:outline          :none
+               :box-shadow       elementshadow
+               :border-width     :3px
+               :border-bottom    :double
+               :margin-bottom    (-px 1)
+               :background-color color-text-bright}]]])
 
 
 
