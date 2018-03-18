@@ -1,4 +1,5 @@
-(ns anathema-online.ui.common)
+(ns anathema-online.ui.common
+  (:require [clojure.string :as str]))
 
 (defn get-change-value [e] (.. e -target -value))
 (defn make-change-handler [path change-fn readonly?]
