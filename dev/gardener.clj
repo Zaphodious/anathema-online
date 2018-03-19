@@ -759,7 +759,7 @@
 (def mobilestyle-new
   [[:* {:margin 0
         :padding 0
-        :font-family "Karma, sans-serif"
+        :font-family "opendyslexic, sans-serif"
         :font-weight :normal
         :font-size :13px}]
    [:html {:height  (calchelper :100% - :20px)
