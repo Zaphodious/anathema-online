@@ -2,8 +2,8 @@
   (:require [com.stuartsierra.component :as component]))
 
 (def worker-path (if js/goog.DEBUG
-                   "jshelper/bootstrap_worker.js"
-                   "js/compiled/worker.js"))
+                   "/jshelper/bootstrap_worker.js"
+                   "/js/compiled/service_worker.js"))
 
 (defn is-service-worker-supported?
   []
@@ -20,7 +20,7 @@
 (defrecord Service-Worker-Component []
   component/Lifecycle
   (start [this]
-    (register-service-worker worker-path)
+    (register-service-worker "/js/compiled/service_worker.js")
     this)
   (stop [this] this))
 
