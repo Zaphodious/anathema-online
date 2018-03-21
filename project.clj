@@ -27,6 +27,7 @@
                  [com.cemerick/url "0.1.1"]
                  [byte-transforms "0.1.4"]
                  [jstrutz/hashids "1.0.1"]
+                 [bidi "2.1.3"]
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
