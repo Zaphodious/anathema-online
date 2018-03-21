@@ -77,27 +77,49 @@
             :background-lighter "#4D362E"
             :background-darker  "#33241F"})
 
-(def primary-color (gc/hex->rgb "#ffb154"))
+(def primary-color (gc/from-name "goldenrod"))
 (def compliment-color (gc/hex->rgb "#075d97"))
 
-(def gbb-opac 0.8)
-(def title-bg-color (assoc (gc/darken primary-color 5) :alpha gbb-opac))
+(def gbb-opac 0.5)
+(def title-bg-color (assoc (gc/lighten primary-color 0) :alpha gbb-opac))
 
-(def title-background-image [;(url "../img/canvas_transparent_header.png")
-                             (linear-gradient
-                               (assoc (gc/lighten primary-color 15) :alpha gbb-opac)
-                               title-bg-color
-                               title-bg-color
-                               title-bg-color)
-                             (url "../img/brushed_metal.png")])
-(def section-title-gradient [(linear-gradient
-                               (assoc (gc/lighten primary-color 10) :alpha gbb-opac)
-                               title-bg-color
-                               title-bg-color
-                               title-bg-color
-                               title-bg-color
-                               (assoc (gc/darken primary-color 25) :alpha gbb-opac))
-                             (url "../img/brushed_metal.png")])
+(def radial-gold-gradient "radial-gradient(ellipse farthest-corner at bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),\n
+radial-gradient(ellipse farthest-corner at top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%)")
+(def gold-gradient-bottom (linear-gradient "to top"
+                                        [(gc/hex->rgb "#FEDB37") "0%"]
+                                        [(gc/hex->rgb "#FDB931") "8%"]
+                                        [(gc/hex->rgb "#9f7928") "30%"]
+                                        [(gc/hex->rgb "#8A6E2F") "40%"]
+                                        ["transparent" "80%"]))
+(def gold-gradient-top (linear-gradient "to bottom"
+                                           [(gc/hex->rgb "#FFFFFF") "0%"]
+                                           [(gc/hex->rgb "#FFFFAC") "8%"]
+                                           [(gc/hex->rgb "#D1B464") "25%"]
+                                           [(gc/hex->rgb "#5d4a1f") "62.5%"]
+                                           [(gc/hex->rgb "#5d4a1f") "100%"]))
+(def depth-gradient (linear-gradient
+                      (assoc (gc/lighten primary-color 40) :alpha gbb-opac)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc title-bg-color :alpha 0.3)
+                      (assoc (gc/darken primary-color 40) :alpha gbb-opac)))
+
+(def title-background-image [(url "../img/brushed_metal.png")
+                             depth-gradient
+                             gold-gradient-bottom
+                             gold-gradient-top])
+(def section-title-gradient [(url "../img/brushed_metal.png")
+                             depth-gradient
+                             gold-gradient-bottom
+                             gold-gradient-top])
 
 title-bg-color
 
@@ -847,7 +869,7 @@ title-bg-color
                 ;:left     :40px
                 ;:width    :100%}
      [:.page {:position :relative
-              :margin-top :46px
+              :margin-top :50px
               :margin-bottom :40px}
       [:.section {:background-image (url "../img/canvas_paper.png")
                   :border-width     :1px
@@ -861,7 +883,7 @@ title-bg-color
        [:h3 {:background-image section-title-gradient
              :font-size        :23px
              :position         :sticky
-             :top              :46px
+             :top              :50px
              :padding-top      :2px
              :box-shadow       section-title-shadow
              ;:width (calchelper :100% - :20px)

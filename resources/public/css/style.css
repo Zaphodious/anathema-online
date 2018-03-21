@@ -54,14 +54,14 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
   border-width: 3px;
   padding-bottom: 10px;
   top: 0;
-  border-color: #ffb154;
+  border-color: #daa520;
   height: 40px;
   text-align: center;
   position: fixed;
   z-index: 110;
   font-size: 37px;
-  background-image: linear-gradient(hsla(32.63158, 100%, 81.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8)), url(../img/brushed_metal.png);
-  text-shadow: 0 0 10px #ff9a21;
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(42.903225, 74.4%, 89.01961%, 0.5), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 9.019608%, 0.5)), linear-gradient(to top, #fedb37 0%, #fdb931 8%, #9f7928 30%, #8a6e2f 40%, transparent 80%), linear-gradient(to bottom, #ffffff 0%, #ffffac 8%, #d1b464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
+  text-shadow: 0 0 10px #ae8319;
   padding-top: 0px;
 }
 
@@ -130,27 +130,27 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 
 #app-frame #content .page {
   position: relative;
-  margin-top: 46px;
+  margin-top: 50px;
   margin-bottom: 40px;
 }
 
 #app-frame #content .page .section {
-  box-shadow: 0 -3px 10px #767676;
+  box-shadow: 0 -3px 10px #4a4a4a;
   width: 100%;
   background-image: url(../img/canvas_paper.png);
   border-width: 1px;
   z-index: 10;
   padding-top: 0;
-  border-color: #ffb154;
+  border-color: #daa520;
   position: relative;
   margin-bottom: 10px;
 }
 
 #app-frame #content .page .section h3 {
-  background-image: linear-gradient(hsla(32.63158, 100%, 76.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 61.47059%, 0.8), hsla(32.63158, 100%, 41.47059%, 0.8)), url(../img/brushed_metal.png);
+  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(42.903225, 74.4%, 89.01961%, 0.5), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 49.019608%, 0.3), hsla(42.903225, 74.4%, 9.019608%, 0.5)), linear-gradient(to top, #fedb37 0%, #fdb931 8%, #9f7928 30%, #8a6e2f 40%, transparent 80%), linear-gradient(to bottom, #ffffff 0%, #ffffac 8%, #d1b464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
   font-size: 23px;
   position: sticky;
-  top: 46px;
+  top: 50px;
   padding-top: 2px;
   box-shadow: 0 0 5px black;
   padding: 5px;
@@ -181,16 +181,16 @@ input, select, textarea {
   border-right: none;
   border-top: none;
   margin-bottom: 3.0px;
-  box-shadow: inset 0 0 4px #767676;
+  box-shadow: inset 0 0 4px #4a4a4a;
   margin-left: -5.0px;
   background-color: transparent;
   padding-right: 0;
-  background-image: linear-gradient(hsla(32.63158, 100%, 86.47059%, 0.8), hsla(32.63158, 100%, 86.47059%, 0.8), hsla(32.63158, 100%, 96.47059%, 0.8), hsla(32.63158, 100%, 100%, 0.8)), url(../img/brushed_metal.png);
+  background-image: linear-gradient(hsla(42.903225, 74.4%, 69.01961%, 0.5), hsla(42.903225, 74.4%, 69.01961%, 0.5), hsla(42.903225, 74.4%, 79.01961%, 0.5), hsla(42.903225, 74.4%, 89.01961%, 0.5)), url(../img/brushed_metal.png);
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  box-shadow: 0 -3px 10px #767676;
+  box-shadow: 0 -3px 10px #4a4a4a;
   border-width: 3px;
   border-bottom: double;
   margin-bottom: 1.0px;
