@@ -80,28 +80,26 @@
 (def sun-gold (gc/hex->rgb "#f4c53e"))
 (def moon-blue (gc/complement sun-gold))
 
-(def gbb-opac 0.8)
-(def section-title-gradient [(url "../img/brushed_metal.png")
-                             (linear-gradient
-                               (assoc (gc/darken sun-gold 45) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 40) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 35) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 30) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 05) :alpha  gbb-opac)
-                               (assoc (gc/lighten sun-gold 20) :alpha  gbb-opac))])
+(def gbb-opac 0.75)
+(def title-bg-color (assoc (gc/darken sun-gold 05) :alpha  gbb-opac))
 
 (def title-background-image [;(url "../img/canvas_transparent_header.png")
-                             (url "../img/brushed_metal.png")
                              (linear-gradient
-                               (assoc (gc/darken sun-gold 35) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 30) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 20) :alpha  gbb-opac)
-                               (assoc (gc/darken sun-gold 15) :alpha  gbb-opac)
-                               (assoc (gc/lighten sun-gold 5) :alpha  gbb-opac)
-                               (assoc (gc/lighten sun-gold 30) :alpha  gbb-opac))])
+                               (assoc (gc/lighten sun-gold 15) :alpha  gbb-opac)
+                               title-bg-color
+                               title-bg-color
+                               title-bg-color)
+                             (url "../img/brushed_metal.png")])
+(def section-title-gradient [(linear-gradient
+                               (assoc (gc/lighten sun-gold 10) :alpha gbb-opac)
+                               title-bg-color
+                               title-bg-color
+                               title-bg-color
+                               title-bg-color
+                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac))
+                             (url "../img/brushed_metal.png")])
 
+title-bg-color
 
 (def menu-background-image
   (into [(linear-gradient
@@ -109,21 +107,21 @@
            (assoc (gc/darken sun-gold 20) :alpha 0.5))]
         title-background-image))
 
-(def input-background [(url "../img/brushed_metal.png")
-                       (linear-gradient
-                         (assoc (gc/lighten sun-gold 20) :alpha 0.4)
-                         (assoc (gc/lighten sun-gold 20) :alpha 0.5)
-                         (assoc (gc/lighten sun-gold 30) :alpha 0.5)
-                         (assoc (gc/lighten sun-gold 40) :alpha 0.4))])
+(def input-background [(linear-gradient
+                         (assoc (gc/lighten sun-gold 20) :alpha gbb-opac)
+                         (assoc (gc/lighten sun-gold 20) :alpha gbb-opac)
+                         (assoc (gc/lighten sun-gold 30) :alpha gbb-opac)
+                         (assoc (gc/lighten sun-gold 40) :alpha gbb-opac))
+                       (url "../img/brushed_metal.png")])
 
-(def button-bar-background [(url "../img/brushed_metal.png")
-                            (linear-gradient
+(def button-bar-background [(linear-gradient
                               (assoc (gc/darken sun-gold 20) :alpha 0.3)
                               (assoc (gc/darken sun-gold 20) :alpha 0.5)
                               (assoc (gc/darken sun-gold 15) :alpha 0.7)
                               (assoc (gc/darken sun-gold 15) :alpha 0.6)
                               (assoc (gc/darken sun-gold 20) :alpha 0.5)
-                              (assoc (gc/darken sun-gold 50) :alpha 0.3))])
+                              (assoc (gc/darken sun-gold 50) :alpha 0.3))
+                            (url "../img/brushed_metal.png")])
 
 
 
@@ -145,8 +143,8 @@
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
 (def section-inner-shadow (str "inset " navshadow))
-(def menu-tab-shadow "0 0 5px black")
-(def menu-shadow (str "inset " menu-tab-shadow))
+(def section-title-shadow "0 0 5px black")
+(def menu-shadow (str "inset " section-title-shadow))
 (def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken sun-gold 10))))
 
 
@@ -787,13 +785,17 @@
                  :position     :relative}
     [:.page-title {:position         :fixed
                    :top              0
-                   :padding-top      :5px
+                   :padding-top      :0px
+                   :padding-bottom :10px
                    :width            :100%
                    :height           :40px
                    :font-size        :37px
                    :background-image title-background-image
                    :text-shadow      title-text-shadow
                    :text-align       :center
+                   :border-bottom :ridge
+                   :border-width :3px
+                   :border-color sun-gold
                    :z-index          110}
      [:h1 {:font-size :inherit}]]
     [:#menu {
@@ -845,7 +847,7 @@
                 ;:left     :40px
                 ;:width    :100%}
      [:.page {:position :relative
-              :margin-top :45px
+              :margin-top :46px
               :margin-bottom :40px}
       [:.section {:background-image (url "../img/canvas_paper.png")
                   :border-width :1px
@@ -857,12 +859,14 @@
                   :padding-top 0
                   :margin-bottom :10px}
        [:h3 {:background-image section-title-gradient
-             :font-size :20px
-             :position :sticky
-             :top :45px
+             :font-size        :23px
+             :position         :sticky
+             :top              :46px
+             :padding-top      :2px
+             :box-shadow       section-title-shadow
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
-             :padding :5px}]
+             :padding          :5px}]
        [:.interior {:padding :10px
                     :padding-top :3px}
         [:ul

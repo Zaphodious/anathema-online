@@ -49,16 +49,20 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 #app-frame .page-title {
+  border-bottom: ridge;
   width: 100%;
+  border-width: 3px;
+  padding-bottom: 10px;
   top: 0;
+  border-color: #f4c53e;
   height: 40px;
   text-align: center;
   position: fixed;
   z-index: 110;
   font-size: 37px;
-  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 25%, 0.8), hsla(44.505493, 89.21568%, 30%, 0.8), hsla(44.505493, 89.21568%, 35%, 0.8), hsla(44.505493, 89.21568%, 40%, 0.8), hsla(44.505493, 89.21568%, 45%, 0.8), hsla(44.505493, 89.21568%, 65%, 0.8), hsla(44.505493, 89.21568%, 90%, 0.8));
+  background-image: linear-gradient(hsla(44.505493, 89.21568%, 75%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75)), url(../img/brushed_metal.png);
   text-shadow: 0 0 10px #f1b70e;
-  padding-top: 5px;
+  padding-top: 0px;
 }
 
 #app-frame .page-title h1 {
@@ -126,7 +130,7 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 
 #app-frame #content .page {
   position: relative;
-  margin-top: 45px;
+  margin-top: 46px;
   margin-bottom: 40px;
 }
 
@@ -143,10 +147,12 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 #app-frame #content .page .section h3 {
-  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 15%, 0.8), hsla(44.505493, 89.21568%, 20%, 0.8), hsla(44.505493, 89.21568%, 25%, 0.8), hsla(44.505493, 89.21568%, 30%, 0.8), hsla(44.505493, 89.21568%, 35%, 0.8), hsla(44.505493, 89.21568%, 55%, 0.8), hsla(44.505493, 89.21568%, 80%, 0.8));
-  font-size: 20px;
+  background-image: linear-gradient(hsla(44.505493, 89.21568%, 70%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 55%, 0.75), hsla(44.505493, 89.21568%, 35%, 0.75)), url(../img/brushed_metal.png);
+  font-size: 23px;
   position: sticky;
-  top: 45px;
+  top: 46px;
+  padding-top: 2px;
+  box-shadow: 0 0 5px black;
   padding: 5px;
 }
 
@@ -179,7 +185,7 @@ input, select, textarea {
   margin-left: -5.0px;
   background-color: transparent;
   padding-right: 0;
-  background-image: url(../img/brushed_metal.png), linear-gradient(hsla(44.505493, 89.21568%, 80%, 0.4), hsla(44.505493, 89.21568%, 80%, 0.5), hsla(44.505493, 89.21568%, 90%, 0.5), hsla(44.505493, 89.21568%, 100%, 0.4));
+  background-image: linear-gradient(hsla(44.505493, 89.21568%, 80%, 0.75), hsla(44.505493, 89.21568%, 80%, 0.75), hsla(44.505493, 89.21568%, 90%, 0.75), hsla(44.505493, 89.21568%, 100%, 0.75)), url(../img/brushed_metal.png);
 }
 
 input:focus, select:focus, textarea:focus {

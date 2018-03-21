@@ -70,13 +70,13 @@
                            :optimizations :advanced}}
 
                {:id "worker"
-                :source-paths ["src/cljservice"]
+                :source-paths ["src/cljservice" "src/cljc"]
                 :compiler {:output-to "resources/public/js/compiled/service_worker.js"
                            :output-dir "resources/public/js/compiled/out/worker"
                            :optimizations :advanced}}
 
                {:id "worker-dev"
-                :source-paths ["src/cljservice"]
+                :source-paths ["src/cljservice" "src/cljc"]
                 :compiler {:output-to "resources/public/js/compiled/service_worker.js"
                            :output-dir "resources/public/js/compiled/out/worker-dev"
                            :optimizations :none}}
@@ -122,7 +122,7 @@
 
   :profiles {:dev
              {:dependencies [[figwheel "0.5.16-SNAPSHOT"]
-                             [figwheel-sidecar "0.5.11"]
+                             [figwheel-sidecar "0.5.16-SNAPSHOT"]
                              [com.cemerick/piggieback "0.2.2"]
                              [org.clojure/tools.nrepl "0.2.13"]
                              [lein-doo "0.1.7"]
