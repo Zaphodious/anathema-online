@@ -797,14 +797,16 @@
                    :z-index          110}
      [:h1 {:font-size :inherit}]]
     [:#menu {
+             :margin "0 auto"
+             :text-align :justify-all
              :color :white
              ;:text-shadow navshadow
              :display :block
              :position :fixed
-             :height :200px
+             :height :36px
              :width :100%
              ;:top :45px
-             :bottom :-200px
+             :bottom :0px
              :left :0px
              :transition [:left :0.5s]
              :z-index 50}
@@ -818,43 +820,33 @@
            :background (-> (gc/as-hsl moon-blue)
                            (assoc :saturation 20)
                            (assoc :lightness 50))}
-      [:li {:display       :block
-            :border-bottom-style :groove
+      [:li {:display       :inline-block
+            ;:float :right
+            ;:border-bottom-style :groove
             :border-bottom-color (-> (gc/as-hsl moon-blue)
                                      (assoc :saturation 20)
                                      (assoc :lightness 30))
-            :border-bottom-width :1px
+            ;:border-bottom-width :1px
             :font-size     :20px
-            :width (calchelper :100% - :30px)
+            ;:width (calchelper :100% - :30px)
+            :text-align :center
+            :width :17%
             :padding       :4px}
        [:&:last {:border :none}]
        [:&:before {:content "\"\""}]
+       [:span.label {:display :none}]
        [:.menu-icon {:font-size :27px
                      :text-align :center
-                     :vertical-align :middle
-                     :margin-top :-3px
-                     :margin-right :5px}]]]
-     [:.tab {:position         :fixed
-             :box-shadow       menu-tab-shadow
-             :color :white
-             :font-size :36px
-             ;:padding-left :30px
-             :bottom           :-5px
-             :right            :10px
-             :display          :block
-             :border-radius    :5px
-             :background-color (-> (gc/as-hsl moon-blue)
-                                   (assoc :saturation 20)
-                                   (assoc :lightness 50))
-             :width            :35px
-             :height           :45px}]]
+                     :vertical-align :middle}]]]]
+
     [:#content {:position :relative}
                 ;:top      :0px
                 ;:margin-top :45px
                 ;:left     :40px
                 ;:width    :100%}
      [:.page {:position :relative
-              :margin-top :45px}
+              :margin-top :45px
+              :margin-bottom :40px}
       [:.section {:background-image (url "../img/canvas_paper.png")
                   :border-width :1px
                   :border-color sun-gold
