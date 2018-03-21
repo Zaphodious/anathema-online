@@ -77,55 +77,55 @@
             :background-lighter "#4D362E"
             :background-darker  "#33241F"})
 
-(def sun-gold (gc/hex->rgb "#f4c53e"))
-(def moon-blue (gc/complement sun-gold))
+(def primary-color (gc/hex->rgb "#ffb154"))
+(def compliment-color (gc/hex->rgb "#075d97"))
 
-(def gbb-opac 0.75)
-(def title-bg-color (assoc (gc/darken sun-gold 05) :alpha  gbb-opac))
+(def gbb-opac 0.8)
+(def title-bg-color (assoc (gc/darken primary-color 5) :alpha gbb-opac))
 
 (def title-background-image [;(url "../img/canvas_transparent_header.png")
                              (linear-gradient
-                               (assoc (gc/lighten sun-gold 15) :alpha  gbb-opac)
+                               (assoc (gc/lighten primary-color 15) :alpha gbb-opac)
                                title-bg-color
                                title-bg-color
                                title-bg-color)
                              (url "../img/brushed_metal.png")])
 (def section-title-gradient [(linear-gradient
-                               (assoc (gc/lighten sun-gold 10) :alpha gbb-opac)
+                               (assoc (gc/lighten primary-color 10) :alpha gbb-opac)
                                title-bg-color
                                title-bg-color
                                title-bg-color
                                title-bg-color
-                               (assoc (gc/darken sun-gold 25) :alpha  gbb-opac))
+                               (assoc (gc/darken primary-color 25) :alpha gbb-opac))
                              (url "../img/brushed_metal.png")])
 
 title-bg-color
 
 (def menu-background-image
   (into [(linear-gradient
-           (assoc (gc/lighten sun-gold 25) :alpha 0.5)
-           (assoc (gc/darken sun-gold 20) :alpha 0.5))]
+           (assoc (gc/lighten primary-color 25) :alpha 0.5)
+           (assoc (gc/darken primary-color 20) :alpha 0.5))]
         title-background-image))
 
 (def input-background [(linear-gradient
-                         (assoc (gc/lighten sun-gold 20) :alpha gbb-opac)
-                         (assoc (gc/lighten sun-gold 20) :alpha gbb-opac)
-                         (assoc (gc/lighten sun-gold 30) :alpha gbb-opac)
-                         (assoc (gc/lighten sun-gold 40) :alpha gbb-opac))
+                         (assoc (gc/lighten primary-color 20) :alpha gbb-opac)
+                         (assoc (gc/lighten primary-color 20) :alpha gbb-opac)
+                         (assoc (gc/lighten primary-color 30) :alpha gbb-opac)
+                         (assoc (gc/lighten primary-color 40) :alpha gbb-opac))
                        (url "../img/brushed_metal.png")])
 
 (def button-bar-background [(linear-gradient
-                              (assoc (gc/darken sun-gold 20) :alpha 0.3)
-                              (assoc (gc/darken sun-gold 20) :alpha 0.5)
-                              (assoc (gc/darken sun-gold 15) :alpha 0.7)
-                              (assoc (gc/darken sun-gold 15) :alpha 0.6)
-                              (assoc (gc/darken sun-gold 20) :alpha 0.5)
-                              (assoc (gc/darken sun-gold 50) :alpha 0.3))
+                              (assoc (gc/darken primary-color 20) :alpha 0.3)
+                              (assoc (gc/darken primary-color 20) :alpha 0.5)
+                              (assoc (gc/darken primary-color 15) :alpha 0.7)
+                              (assoc (gc/darken primary-color 15) :alpha 0.6)
+                              (assoc (gc/darken primary-color 20) :alpha 0.5)
+                              (assoc (gc/darken primary-color 50) :alpha 0.3))
                             (url "../img/brushed_metal.png")])
 
 
 
-(def title-color (gc/lighten sun-gold 10))
+(def title-color (gc/lighten primary-color 10))
 
 
 (defn prefix-it [stylekey stylerule]
@@ -136,8 +136,8 @@ title-bg-color
 
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
-(def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
-(def minor-button-shadow (str "0 0 4px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement sun-gold) sun-gold) 20) 20)))) ;#6d6d6d
+(def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
+(def minor-button-shadow (str "0 0 4px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
 (def inputshadow (str "inset " minor-button-shadow))
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
@@ -145,7 +145,7 @@ title-bg-color
 (def section-inner-shadow (str "inset " navshadow))
 (def section-title-shadow "0 0 5px black")
 (def menu-shadow (str "inset " section-title-shadow))
-(def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken sun-gold 10))))
+(def title-text-shadow (str "0 0 10px " (gc/as-hex (gc/darken primary-color 10))))
 
 
 
@@ -174,10 +174,10 @@ title-bg-color
     {:font-size   :25px
      :font-family "Envision, serif"
      :font-weight :bold
-     :color       (gc/darken (gc/complement sun-gold) 50)}
+     :color       (gc/darken (gc/complement primary-color) 50)}
     [:p {:font-weight :normal}]]
 
-   [:button {:background-color (assoc (gc/lighten sun-gold 40)
+   [:button {:background-color (assoc (gc/lighten primary-color 40)
                                  :alpha 0.4)
              :border-style     :solid
              :border-width     :1px
@@ -304,12 +304,12 @@ title-bg-color
          [:.select-title :.line
           {:left             :0px
            :top              :0px
-           :color            (gc/lighten moon-blue 35)
-           :background-color (assoc (gc/darken moon-blue 45) :alpha 0.7)}]]
+           :color            (gc/lighten compliment-color 35)
+           :background-color (assoc (gc/darken compliment-color 45) :alpha 0.7)}]]
         [:&.disallowed {:border-color :red}]
         [:.select-title :.line
-         {:background-color (assoc (gc/darken sun-gold 45) :alpha 0.7)
-          :color            (gc/lighten sun-gold 35)
+         {:background-color (assoc (gc/darken primary-color 45) :alpha 0.7)
+          :color            (gc/lighten primary-color 35)
           :text-shadow "0px 0px 7px black"
           :display          :block
           :position         :relative
@@ -320,8 +320,8 @@ title-bg-color
           :padding-left :18px
           :overflow         :wrap}
          [:&:after {:display :block}]]
-        [:&.disallowed [:.select-title :.line {:color (gc/lighten moon-blue 30)
-                                               :background-color (assoc (gc/darken sun-gold 60) :alpha 0.8)}]]
+        [:&.disallowed [:.select-title :.line {:color (gc/lighten compliment-color 30)
+                                               :background-color (assoc (gc/darken primary-color 60) :alpha 0.8)}]]
         ;:text-shadow "0px 0px 2px white"}]]
         ;[:.select-byline [:&:before {:content "\"By: \""}]]
         [:.select-contains
@@ -418,14 +418,14 @@ title-bg-color
                       :margin-bottom    :10px
                       ;:border :solid
                       :border-width     :1px
-                      :border-color     sun-gold
+                      :border-color     primary-color
                       ;:border-color section-border-color
                       ;:border-style :solid
                       ;:border-width :3px
                       ;:border-bottom-left-radius :30px
                       ;:border-top-right-radius :30px
                       :position         :relative
-                      :top :30px
+                      :top              :30px
                       :box-shadow       elementshadow}
       [:&.button-bar {:padding :10px}]
       [:& {:padding-bottom 0}]
@@ -433,14 +433,14 @@ title-bg-color
        [:.table-container {:overflow-y :scroll
                            :border :solid
                            :border-width :1px
-                           :border-color (gc/darken moon-blue 30)}
+                           :border-color (gc/darken compliment-color 30)}
         [:table {:table-layout :fixed
                  :width :100%
                  :border-collapse :collapse}
          [:tbody]
 
          [:tr {:height :1em
-               :background-color (assoc (gc/darken (gc/as-rgb moon-blue) 25)
+               :background-color (assoc (gc/darken (gc/as-rgb compliment-color) 25)
                                    :alpha 0.2)}
           [:td :th {:padding :5px}]
           [:th {:background-image title-background-image
@@ -455,24 +455,24 @@ title-bg-color
            [:&.description {:width :500px}]]
           [:td {:overflow         :hidden
                 :text-overflow    :ellipsis
-                :background-color (assoc (gc/lighten (gc/as-rgb moon-blue) 35)
+                :background-color (assoc (gc/lighten (gc/as-rgb compliment-color) 35)
                                     :alpha 0.4)}
            [:&.description {:height :1em}]
            [:input :select {:width :100%
                             :margin-left 0}]
            [:.field.number-field
             [:input {:width :2em}]]]
-          [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb sun-gold) 35)
+          [(td (gs/nth-child 2)) {:background-color (assoc (gc/lighten (gc/as-rgb primary-color) 35)
                                                       :alpha 0.4)}]]
-         [(tr (gs/nth-child 2)) {:background-color (assoc (gc/darken (gc/as-rgb sun-gold) 25)
+         [(tr (gs/nth-child 2)) {:background-color (assoc (gc/darken (gc/as-rgb primary-color) 25)
                                                      :alpha 0.2)}]]]]
       [:&.rulebooks-used
        [:input {:width :100%}]]
       [:&.page-header {:background-position :top
                        :background-size     :cover
                        :min-height          :200px}
-       [:p {:background-color (assoc (gc/as-rgb (gc/darken sun-gold 50)) :alpha 0.7)
-            :color            (gc/lighten sun-gold 20)
+       [:p {:background-color (assoc (gc/as-rgb (gc/darken primary-color 50)) :alpha 0.7)
+            :color            (gc/lighten primary-color 20)
             :display          :block
             :position         :relative
             :top              :10px
@@ -764,7 +764,7 @@ title-bg-color
            :background-image (url "../img/solar_bg.jpg")
            :background-repeat :no-repeat
            :background-attachment :fixed
-           :background-position [:right :bottom]
+           :background-position [:center :top]
            :background-size :cover}]
    [:body {:height :100%
            :width :100%
@@ -773,7 +773,7 @@ title-bg-color
     {:font-size   :25px
      :font-family "Envision, serif"
      :font-weight :bold
-     :color       (gc/darken moon-blue 45)}
+     :color       (gc/darken compliment-color 45)}
     [:p {:font-weight :normal}]]
    [:#app {:width :100%}]
    [:#app-frame {:top          0
@@ -786,16 +786,16 @@ title-bg-color
     [:.page-title {:position         :fixed
                    :top              0
                    :padding-top      :0px
-                   :padding-bottom :10px
+                   :padding-bottom   :10px
                    :width            :100%
                    :height           :40px
                    :font-size        :37px
                    :background-image title-background-image
                    :text-shadow      title-text-shadow
                    :text-align       :center
-                   :border-bottom :ridge
-                   :border-width :3px
-                   :border-color sun-gold
+                   :border-bottom    :ridge
+                   :border-width     :3px
+                   :border-color     primary-color
                    :z-index          110}
      [:h1 {:font-size :inherit}]]
     [:#menu {
@@ -819,13 +819,13 @@ title-bg-color
            :overflow :hide
            :height :100%
            :padding-left :15px
-           :background (-> (gc/as-hsl moon-blue)
-                           (assoc :saturation 20)
-                           (assoc :lightness 50))}
+           :background (-> (gc/as-hsl compliment-color)
+                           (assoc :saturation 50)
+                           (assoc :lightness 30))}
       [:li {:display       :inline-block
             ;:float :right
             ;:border-bottom-style :groove
-            :border-bottom-color (-> (gc/as-hsl moon-blue)
+            :border-bottom-color (-> (gc/as-hsl compliment-color)
                                      (assoc :saturation 20)
                                      (assoc :lightness 30))
             ;:border-bottom-width :1px
@@ -850,14 +850,14 @@ title-bg-color
               :margin-top :46px
               :margin-bottom :40px}
       [:.section {:background-image (url "../img/canvas_paper.png")
-                  :border-width :1px
-                  :border-color sun-gold
-                  :position :relative
-                  :width :100% ;(calchelper :100% - :20px)
-                  :box-shadow elementshadow
-                  :z-index 10
-                  :padding-top 0
-                  :margin-bottom :10px}
+                  :border-width     :1px
+                  :border-color     primary-color
+                  :position         :relative
+                  :width            :100% ;(calchelper :100% - :20px)
+                  :box-shadow       elementshadow
+                  :z-index          10
+                  :padding-top      0
+                  :margin-bottom    :10px}
        [:h3 {:background-image section-title-gradient
              :font-size        :23px
              :position         :sticky

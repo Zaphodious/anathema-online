@@ -2,7 +2,7 @@
   "short_name": "Anathema",
   "name": "Anathema Reincarnated",
   "display": "standalone",
-  "theme_color": "#f4c53e",
+  "theme_color": "#ffb154",
   "icons": [
     {
       "src": "favicon.png",
