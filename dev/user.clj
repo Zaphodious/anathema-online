@@ -9,7 +9,10 @@
             [figwheel-sidecar.repl-api :as figwheel]
             [garden-watcher.core :refer [new-garden-watcher]]
             [anathema-online.config :refer [config]]
-            [anathema-online.components.mongo :as db]))
+            [anathema-online.components.mongo :as db]
+            [com.rpl.specter :as sp]))
+
+(defn print-pass [n] (println (str "printed and passed- " n) n))
 
 (defn dev-system []
   (assoc (anathema-online.application/app-system (config))

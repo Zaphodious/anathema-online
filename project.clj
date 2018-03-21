@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.9.946" :scope "provided"]
+                 [org.clojure/clojurescript "1.10.217" :scope "provided"]
                  [com.cognitect/transit-clj "0.8.300"]
                  [com.cognitect/transit-cljs "0.8.243"]
                  [ring "1.6.2"]
@@ -30,12 +30,12 @@
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
-  :plugins [[lein-cljsbuild "1.1.6"]
+  :plugins [[lein-cljsbuild "1.1.7"]
             [lein-environ "1.1.0"]]
 
   :min-lein-version "2.6.1"
 
-  :source-paths ["src/clj" "src/cljs" "src/cljc"]
+  :source-paths ["src/clj" "src/cljs" "src/cljc" "src/cljservice"]
 
   :test-paths ["test/clj" "test/cljc"]
 
@@ -68,6 +68,18 @@
                 :compiler {:output-to "resources/public/js/compiled/testable.js"
                            :main anathema-online.test-runner
                            :optimizations :advanced}}
+
+               {:id "worker"
+                :source-paths ["src/cljservice"]
+                :compiler {:output-to "resources/public/js/compiled/service_worker.js"
+                           :output-dir "resources/public/js/compiled/out/worker"
+                           :optimizations :advanced}}
+
+               {:id "worker-dev"
+                :source-paths ["src/cljservice"]
+                :compiler {:output-to "resources/public/js/compiled/service_worker.js"
+                           :output-dir "resources/public/js/compiled/out/worker-dev"
+                           :optimizations :none}}
 
                {:id "min"
                 :source-paths ["src/cljs" "src/cljc"]
@@ -109,24 +121,24 @@
   :doo {:build "test"}
 
   :profiles {:dev
-             {:dependencies [[figwheel "0.5.11"]
+             {:dependencies [[figwheel "0.5.16-SNAPSHOT"]
                              [figwheel-sidecar "0.5.11"]
                              [com.cemerick/piggieback "0.2.2"]
                              [org.clojure/tools.nrepl "0.2.13"]
                              [lein-doo "0.1.7"]
                              [reloaded.repl "0.2.3"]]
-
-              :plugins [[lein-figwheel "0.5.11"]
+              :plugins [[lein-figwheel "0.5.16-SNAPSHOT"]
                         [lein-doo "0.1.7"]]
               :env {:mongodb-uri "mongodb%3A%2F%2Flocalhost%3A27017%2Fanathema"
                     :masterkey "devkey42"}
-              :source-paths ["dev"]
+              :source-paths ["dev" "src/cljservice"]
               :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}
 
              :uberjar
-             {:source-paths ^:replace ["src/clj" "src/cljc"]
+             {:source-paths ^:replace ["src/clj" "src/cljc" "src/cljservice"]
               :prep-tasks ["compile"
                            ["cljsbuild" "once" "min"]
+                           ["cljsbuild" "once" "worker"]
                            ["run" "-m" "garden-watcher.main" "anathema-online.styles"]]
               :hooks []
               :omit-source true
