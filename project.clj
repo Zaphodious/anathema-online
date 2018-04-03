@@ -79,7 +79,7 @@
 
                {:id "worker-dev"
                 :source-paths ["src/cljservice" "src/cljc"]
-                :compiler {:output-to "resources/public/js/compiled/service_worker.js"
+                :compiler {:output-to "resources/public/service_worker.js"
                            :output-dir "resources/public/js/compiled/out/worker-dev"
                            :optimizations :none}}
 
