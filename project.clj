@@ -28,6 +28,7 @@
                  [byte-transforms "0.1.4"]
                  [jstrutz/hashids "1.0.1"]
                  [bidi "2.1.3"]
+                 [hireling "0.5.0-ALPHA-SNAPSHOT"]
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
