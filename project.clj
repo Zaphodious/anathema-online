@@ -75,12 +75,16 @@
                 :source-paths ["src/cljservice" "src/cljc"]
                 :compiler {:output-to "resources/public/service_worker.js"
                            :output-dir "resources/public/js/compiled/out/worker"
+                           :target :webworker
+                           :main anathema-online.service.core
                            :optimizations :advanced}}
 
                {:id "worker-dev"
                 :source-paths ["src/cljservice" "src/cljc"]
                 :compiler {:output-to "resources/public/service_worker.js"
                            :output-dir "resources/public/js/compiled/out/worker-dev"
+                           :target :webworker
+                           :main anathema-online.service.core
                            :optimizations :none}}
 
                {:id "min"
