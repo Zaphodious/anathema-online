@@ -8,7 +8,7 @@
   {:version 1
    :cache-name "anathema-cache"
    :cached-paths {:cache-fastest
-                  ["/" "/css/style.css" "/css/font.css"
+                  ["" "css/style.css" "css/font.css"
                    "https://fonts.googleapis.com/icon?family=Material+Icons"
-                   "/js/compiled/anathema_online.js"
-                   "/favicon.png"]}})
+                   "js/compiled/anathema_online.js"
+                   "favicon.png"]}})
