@@ -28,7 +28,8 @@
                  [byte-transforms "0.1.4"]
                  [jstrutz/hashids "1.0.1"]
                  [bidi "2.1.3"]
-                 [hireling "0.5.0-ALPHA-SNAPSHOT"]
+                 [binaryage/oops "0.5.8"]
+                 [hireling "0.6.0-ALPHA-SNAPSHOT"]
                  [org.clojure/test.check "0.10.0-alpha2"]
                  [org.clojure/core.async  "0.4.474"]]
 
@@ -41,7 +42,7 @@
 
   :test-paths ["test/clj" "test/cljc"]
 
-  :clean-targets ^{:protect false} [:target-path :compile-path "resources/public/js"]
+  :clean-targets ^{:protect false} [:target-path :compile-path "resources/public/js" "resources/public/service_worker.js"]
 
   :uberjar-name "anathema-online.jar"
 
@@ -96,6 +97,9 @@
                            :source-map-timestamp true
                            :optimizations :advanced
                            :pretty-print false}}]}
+
+  :aliases {"compile-worker" ["cljsbuild" "once" "worker"]
+            "build-worker" ["do" "clean," "compile-worker"]}
 
   ;; When running figwheel from nREPL, figwheel will read this configuration
   ;; stanza, but it will read it without passing through leiningen's profile

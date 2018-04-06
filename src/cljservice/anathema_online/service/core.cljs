@@ -1,14 +1,40 @@
 (ns anathema-online.service.core
-  (:require [hireling.core :as hireling]))
+  (:require [hireling.core :as hireling]
+            [anathema-online.route-def :as ard]
+            [bidi.bidi :as bidi]
+            [clojure.string :as str]))
 
 (defn service-start []
   (println "Service Worker Started Successfully :D:D:D:D"))
 
+(def index-route (bidi/path-for ard/routemap ::ard/index))
+
 (hireling/start-service-worker!
   {:version 1
-   :cache-name "anathema-cache"
-   :cached-paths {:cache-fastest
-                  ["index.html" "css/style.css" "css/font.css"
-                   "https://fonts.googleapis.com/icon?family=Material+Icons"
-                   "js/compiled/anathema_online.js"
-                   "favicon.png"]}})
+   :app-name "anathema"
+   :precaching [{:url index-route
+                 :revision 1}
+                {:url "/favicon.png"
+                 :revision 1}]
+   :navigation-route {:url index-route
+                      :whitelist [#"/character/"
+                                  #"/chron/"]
+                      :blacklist [#"/data/"
+                                  #"/img/"
+                                  #"/css/"
+                                  #"/fonts/"
+                                  #"/js/"]}
+   :precache-routing-opts {:directoryIndex "index.html"}
+   :cache-routes [{:strategy :stale-while-revalidate
+                   :cache-name "jscache"
+                   :route #".js"}
+                  {:strategy :stale-while-revalidate
+                   :cache-name "csscache"
+                   :route #".css"}
+                  {:strategy :stale-while-revalidate
+                   :cache-name "fontcache"
+                   :route #"/fonts/"}
+                  {:strategy :cache-first
+                   :route #".png|.jpg|.gif"
+                   :cache-name "imgcache"
+                   :max-age-seconds (* 60 60)}]})
