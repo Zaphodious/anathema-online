@@ -37,4 +37,7 @@
                   {:strategy :cache-first
                    :route #".png|.jpg|.gif"
                    :cache-name "imgcache"
-                   :max-age-seconds (* 60 60)}]})
+                   :max-age-seconds (* 60 60)}
+                  {:strategy :network-first
+                   :cache-name "datacache"
+                   :route #"/data/"}]})
