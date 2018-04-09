@@ -3,6 +3,7 @@
             [compojure.core :refer [ANY GET PUT POST DELETE routes context]]
             [compojure.route :refer [resources]]
             [anathema-online.disk :as adisk]
+            [garden.core :as garden]
             [ring.util.response :as resp :refer [response resource-response]]
             [anathema-online.data :as data]
             [anathema-online.creation :as creation]
@@ -23,8 +24,9 @@
     (= '(\i \e \s) (->> plural-category reverse (take 3) reverse)) (str/replace plural-category "ies" "y")
     (= \s (last plural-category)) (->> plural-category drop-last (reduce str))))
 
-(defn home-routes-old [{:keys [disk environ] :as endpoint}]
+(defn home-routes [{:keys [disk environ] :as endpoint}]
   (routes
+
     (GET "/data/players/:key.full.:filetype" [key filetype]
       (-> (disk/get-for-player disk key)
           (data/write-data-as (keyword filetype))
@@ -65,7 +67,7 @@
       response
       (assoc :headers {"Content-Type" "text/html; charset=utf-8"})))
 
-(defn home-routes [{:keys [disk environ] :as endpoint}]
+(defn home-routes-bidi [{:keys [disk environ] :as endpoint}]
   (bring/make-handler ard/routemap
         (fn [rk]
           (let [d (resources "/")]

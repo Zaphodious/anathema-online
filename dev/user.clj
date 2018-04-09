@@ -17,8 +17,8 @@
 (defn dev-system []
   (assoc (anathema-online.application/app-system (config))
     :figwheel-system (fw-sys/figwheel-system (fw-config/fetch-config))
-    :css-watcher (fw-sys/css-watcher {:watch-paths ["resources/public/css"]})
-    :garden-watcher (new-garden-watcher ['anathema-online.styles])))
+    :css-watcher (fw-sys/css-watcher {:watch-paths ["resources/public/css"]})))
+    ;:garden-watcher (new-garden-watcher ['anathema-online.garden.core])))
 
 (set-refresh-dirs "src" "dev")
 (reloaded.repl/set-init! #(dev-system))

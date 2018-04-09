@@ -158,7 +158,7 @@ title-bg-color
 
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
-(def elementshadow (str "0 -3px 10px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
+(def elementshadow (str "0 0px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
 (def minor-button-shadow (str "0 0 4px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
 (def inputshadow (str "inset " minor-button-shadow))
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
@@ -249,7 +249,7 @@ title-bg-color
            :background-image      (url "../img/solar_bg.jpg")
            :background-repeat     :no-repeat
            :background-attachment :fixed
-           :background-position   [:right :center]
+           :background-position   :left
            :background-size       :cover}]
    ;:height                :100%}]
    ;:overflow              :hide}]
@@ -786,7 +786,7 @@ title-bg-color
            :background-image (url "../img/solar_bg.jpg")
            :background-repeat :no-repeat
            :background-attachment :fixed
-           :background-position [:center :top]
+           :background-position :right
            :background-size :cover}]
    [:body {:height :100%
            :width :100%
@@ -812,16 +812,17 @@ title-bg-color
                    :width            :100%
                    :height           :40px
                    :font-size        :37px
-                   :background-image title-background-image
-                   :text-shadow      title-text-shadow
+                   :background-image (url "/img/blue_wc_header_lighttop.jpg")
+                   :background-position :center
+                   ;:text-shadow      title-text-shadow
                    :text-align       :center
-                   :border-bottom    :ridge
-                   :border-width     :3px
-                   :border-color     primary-color
+                   :box-shadow elementshadow
+                   ;:border-bottom    :ridge
+                   ;:border-width     :3px
+                   ;:border-color     primary-color
                    :z-index          110}
      [:h1 {:font-size :inherit}]]
-    [:#menu {
-             :margin "0 auto"
+    [:#menu {:margin "0 auto"
              :text-align :justify-all
              :color :white
              ;:text-shadow navshadow
@@ -830,6 +831,7 @@ title-bg-color
              :height :36px
              :width :100%
              ;:top :45px
+             :background-image (url "/img/blue_wc_header.jpg")
              :bottom :0px
              :left :0px
              :transition [:left :0.5s]
@@ -840,10 +842,7 @@ title-bg-color
            :box-shadow menu-shadow
            :overflow :hide
            :height :100%
-           :padding-left :15px
-           :background (-> (gc/as-hsl compliment-color)
-                           (assoc :saturation 50)
-                           (assoc :lightness 30))}
+           :padding-left :15px}
       [:li {:display       :inline-block
             ;:float :right
             ;:border-bottom-style :groove
@@ -869,23 +868,25 @@ title-bg-color
                 ;:left     :40px
                 ;:width    :100%}
      [:.page {:position :relative
-              :margin-top :50px
+              :margin-top :60px
               :margin-bottom :40px}
-      [:.section {:background-image (url "../img/canvas_paper.png")
-                  :border-width     :1px
+      [:.section {;:background-image (url "../img/canvas_paper.png")
+                  ;:border-width     :1px
                   :border-color     primary-color
                   :position         :relative
                   :width            :100% ;(calchelper :100% - :20px)
-                  :box-shadow       elementshadow
+                  ;:box-shadow       elementshadow
                   :z-index          10
                   :padding-top      0
                   :margin-bottom    :10px}
-       [:h3 {:background-image section-title-gradient
+       [:h3 {:background-image (url "/img/gold_back.jpg")
              :font-size        :23px
-             :position         :sticky
+             ;:position         :sticky
              :top              :50px
              :padding-top      :2px
-             :box-shadow       section-title-shadow
+             :margin-right :10px
+             :margin-left :10px
+             :box-shadow       elementshadow
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
              :padding          :5px}]
@@ -1111,6 +1112,22 @@ title-bg-color
                               [:form {:column-count 2}]]])]]))
 
 
+(def shell-style
+  [[:* {:padding 0
+        :margin 0}]
+   [:body {:background-image    (url "/img/solar_bg.jpg")
+           :background-position :right
+           :background-size     :cover
+           :background-repeat     :no-repeat
+           :background-attachment :fixed
+           :height              :100%}]
+   [:#titlebar {:background-image (url "/img/blue_wc_header_lighttop.jpg")
+                :height :40px
+                :font-size :30px
+                :background-position :center
+                :background-attachment :fixed
+                :background-repeat :no-repeat
+                :background-size :cover}]])
 
 
 (defn add-generated-statement [csser]
@@ -1124,6 +1141,13 @@ title-bg-color
              (map g/css)
              (reduce (fn [a b] (str a "\n\n" b)))
              character-page-desktop-style
+             add-generated-statement)))
+
+(defn compile-style-bleh! []
+  (spit "resources/public/css/core.css"
+        (->> shell-style
+             g/css
+             ;(reduce (fn [a b] (str a "\n\n" b)))
              add-generated-statement)))
 
 (compile-style!)
