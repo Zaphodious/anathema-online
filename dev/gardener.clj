@@ -158,9 +158,9 @@ title-bg-color
 
 (def title-bar-height "3em")
 (def navshadow "0 0 15px black")
-(def elementshadow (str "0 0px 5px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
+(def elementshadow (str "0 0 6px darkgray")) ;#6d6d6d
 (def minor-button-shadow (str "0 0 4px " (gc/as-hex (gc/desaturate (gc/darken (gc/mix (gc/complement primary-color) primary-color) 20) 20)))) ;#6d6d6d
-(def inputshadow (str "inset " minor-button-shadow))
+(def inputshadow (str "inset " elementshadow))
 (def buttonshadow (str "0 -2px 10px" (gc/as-hex color-p-dark)))
 (def focusshadow (str "0 -3px 5px" (gc/as-hex color-p-dark)))
 (def focusshadowtext (str "0 -5px 10px" (gc/as-hex color-p-dark)))
@@ -812,8 +812,9 @@ title-bg-color
                    :width            :100%
                    :height           :40px
                    :font-size        :37px
-                   :background-image (url "/img/blue_wc_header_lighttop.jpg")
-                   :background-position :center
+                   :background-image (url "/img/blue_back.jpg")
+                   :background-position [:center, :bottom]
+                   :background-size :cover
                    ;:text-shadow      title-text-shadow
                    :text-align       :center
                    :box-shadow elementshadow
@@ -831,7 +832,10 @@ title-bg-color
              :height :36px
              :width :100%
              ;:top :45px
-             :background-image (url "/img/blue_wc_header.jpg")
+             :background-image (url "/img/blue_back.jpg")
+             :background-size :cover
+             :background-position [:center :top]
+             :box-shadow elementshadow
              :bottom :0px
              :left :0px
              :transition [:left :0.5s]
@@ -839,7 +843,6 @@ title-bg-color
      [:&:hover {:left :0%
                 :bottom :0px}]
      [:ul {:position :relative
-           :box-shadow menu-shadow
            :overflow :hide
            :height :100%
            :padding-left :15px}
@@ -879,17 +882,19 @@ title-bg-color
                   :z-index          10
                   :padding-top      0
                   :margin-bottom    :10px}
-       [:h3 {:background-image (url "/img/gold_back.jpg")
-             :font-size        :23px
+       [:h3 {:background-image    (url "/img/gold_back.jpg")
+             :font-size           :23px
+             :background-position [:center :left]
+             :background-size     :cover
              ;:position         :sticky
-             :top              :50px
-             :padding-top      :2px
-             :margin-right :10px
-             :margin-left :10px
-             :box-shadow       elementshadow
+             :top                 :50px
+             :padding-top         :2px
+             :margin-right        :10px
+             :margin-left         :10px
+             :box-shadow          elementshadow
              ;:width (calchelper :100% - :20px)
              ;:height (calchelper :100% + :10px)
-             :padding          :5px}]
+             :padding             :5px}]
        [:.interior {:padding :10px
                     :padding-top :3px}
         [:ul
@@ -897,7 +902,9 @@ title-bg-color
           [:* {:display :block
                :width :100%}]]]]]]]]
    [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
-                              :background-image input-background
+                              :background-image (url "/img/yellow_back.jpg")
+                              :background-position :center
+                              :background-size :cover
                               ;:border-radius :9px
                               :box-shadow       inputshadow
                               ;:border-bottom    :solid

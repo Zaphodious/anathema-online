@@ -50,16 +50,17 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 
 #app-frame .page-title {
   width: 100%;
-  background-position: center;
+  background-position: center, bottom;
   padding-bottom: 10px;
   top: 0;
   height: 40px;
   text-align: center;
   position: fixed;
   z-index: 110;
-  box-shadow: 0 0px 5px #4a4a4a;
+  background-size: cover;
+  box-shadow: 0 0 6px darkgray;
   font-size: 37px;
-  background-image: url(/img/blue_wc_header_lighttop.jpg);
+  background-image: url(/img/blue_back.jpg);
   padding-top: 0px;
 }
 
@@ -69,14 +70,17 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 
 #app-frame #menu {
   width: 100%;
+  background-position: center, top;
   height: 36px;
   margin: 0 auto;
   text-align: justify-all;
   position: fixed;
   z-index: 50;
+  background-size: cover;
+  box-shadow: 0 0 6px darkgray;
   display: block;
   bottom: 0px;
-  background-image: url(/img/blue_wc_header.jpg);
+  background-image: url(/img/blue_back.jpg);
   transition: left, 0.5s;
   color: white;
   left: 0px;
@@ -89,7 +93,6 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 
 #app-frame #menu ul {
   position: relative;
-  box-shadow: inset 0 0 5px black;
   overflow: hide;
   height: 100%;
   padding-left: 15px;
@@ -142,14 +145,16 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 #app-frame #content .page .section h3 {
-  background-image: url(/img/gold_back.jpg);
-  font-size: 23px;
+  background-position: center, left;
   top: 50px;
-  padding-top: 2px;
   margin-right: 10px;
-  margin-left: 10px;
-  box-shadow: 0 0px 5px #4a4a4a;
   padding: 5px;
+  background-size: cover;
+  box-shadow: 0 0 6px darkgray;
+  margin-left: 10px;
+  font-size: 23px;
+  background-image: url(/img/gold_back.jpg);
+  padding-top: 2px;
 }
 
 #app-frame #content .page .section .interior {
@@ -167,6 +172,7 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 input, select, textarea {
+  background-position: center;
   border-width: 1px;
   border-left: none;
   border-color: grey;
@@ -177,16 +183,17 @@ input, select, textarea {
   border-right: none;
   border-top: none;
   margin-bottom: 3.0px;
-  box-shadow: inset 0 0 4px #4a4a4a;
+  background-size: cover;
+  box-shadow: inset 0 0 6px darkgray;
   margin-left: -5.0px;
   background-color: transparent;
   padding-right: 0;
-  background-image: linear-gradient(hsla(42.903225, 74.4%, 69.01961%, 0.5), hsla(42.903225, 74.4%, 69.01961%, 0.5), hsla(42.903225, 74.4%, 79.01961%, 0.5), hsla(42.903225, 74.4%, 89.01961%, 0.5)), url(../img/brushed_metal.png);
+  background-image: url(/img/yellow_back.jpg);
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  box-shadow: 0 0px 5px #4a4a4a;
+  box-shadow: 0 0 6px darkgray;
   border-width: 3px;
   border-bottom: double;
   margin-bottom: 1.0px;
