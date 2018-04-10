@@ -34,10 +34,13 @@
                   {:strategy :stale-while-revalidate
                    :cache-name "fontcache"
                    :route #"/fonts/"}
-                  {:strategy :cache-first
+                  {:strategy :stale-while-revalidate
                    :route #".png|.jpg|.gif"
                    :cache-name "imgcache"
                    :max-age-seconds (* 60 60)}
                   {:strategy :network-first
                    :cache-name "datacache"
                    :route #"/data/"}]})
+
+(.skipWaiting js/workbox)
+(.clientsClaim js/workbox)
