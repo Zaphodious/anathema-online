@@ -812,7 +812,7 @@ title-bg-color
                    :width            :100%
                    :height           :40px
                    :font-size        :37px
-                   :background-image (url "/img/blue_back.jpg")
+                   :background-image (url "/img/light_blue_back.jpg")
                    :background-position [:center, :bottom]
                    :background-size :cover
                    ;:text-shadow      title-text-shadow
@@ -902,7 +902,7 @@ title-bg-color
           [:* {:display :block
                :width :100%}]]]]]]]]
    [:input :select :textarea {:background-color :transparent ;(gc/rgba 255 255 255 0.0)
-                              :background-image (url "/img/yellow_back.jpg")
+                              :background-image (url "/img/blue_text_back.png")
                               :background-position :center
                               :background-size :cover
                               ;:border-radius :9px

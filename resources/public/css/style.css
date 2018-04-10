@@ -60,7 +60,7 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
   background-size: cover;
   box-shadow: 0 0 6px darkgray;
   font-size: 37px;
-  background-image: url(/img/blue_back.jpg);
+  background-image: url(/img/light_blue_back.jpg);
   padding-top: 0px;
 }
 
@@ -188,7 +188,7 @@ input, select, textarea {
   margin-left: -5.0px;
   background-color: transparent;
   padding-right: 0;
-  background-image: url(/img/yellow_back.jpg);
+  background-image: url(/img/blue_text_back.png);
 }
 
 input:focus, select:focus, textarea:focus {
