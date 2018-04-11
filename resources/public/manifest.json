@@ -3,11 +3,12 @@
   "name": "Anathema Reincarnated",
   "display": "standalone",
   "theme_color": "#ffb154",
+  "background_color" : "#00ffff",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "/img/gilted-logo.jpg",
       "type": "image/png",
-      "sizes": "676x676"
+      "sizes": "512x512"
     }
   ],
   "start_url": "/"
