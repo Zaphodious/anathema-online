@@ -6,7 +6,7 @@
   "background_color" : "#6adce3",
   "icons": [
     {
-      "src": "/img/gilted-logo.jpg",
+      "src": "/img/gilted-logo-app-icon.png",
       "type": "image/png",
       "sizes": "512x512"
     }
