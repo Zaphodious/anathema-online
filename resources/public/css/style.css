@@ -145,14 +145,14 @@ h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
 }
 
 #app-frame #content .page .section h3 {
-  background-position: center, left;
+  background-position: bottom, center;
   top: 50px;
   margin-right: 10px;
   padding: 5px;
   background-size: cover;
   box-shadow: 0 0 6px darkgray;
   margin-left: 10px;
-  font-size: 23px;
+  font-size: 27px;
   background-image: url(/img/gold_back.jpg);
   padding-top: 2px;
 }

@@ -883,8 +883,8 @@ title-bg-color
                   :padding-top      0
                   :margin-bottom    :10px}
        [:h3 {:background-image    (url "/img/gold_back.jpg")
-             :font-size           :23px
-             :background-position [:center :left]
+             :font-size           :27px
+             :background-position [:bottom :center]
              :background-size     :cover
              ;:position         :sticky
              :top                 :50px
