@@ -13,7 +13,7 @@
   {:version 1
    :app-name "anathema"
    :precaching [{:url index-route
-                 :revision 1}
+                 :revision 2}
                 {:url "/favicon.png"
                  :revision 1}]
    :navigation-route {:url index-route
